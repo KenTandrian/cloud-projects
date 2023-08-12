@@ -40,3 +40,5 @@ substitutions:
   # TODO: Create a repository in Artifact Registry with the name below
   _REPOSITORY: cloud-projects
   _SERVICE_NAME: genai-chat-app
+options:
+  logging: CLOUD_LOGGING_ONLY
