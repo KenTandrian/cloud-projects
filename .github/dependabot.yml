@@ -8,4 +8,9 @@ updates:
   - package-ecosystem: pip
     directory: "/genai-chat-app"
     schedule:
-      interval: daily
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: "/game-of-life-v2"
+    schedule:
+      interval: weekly
