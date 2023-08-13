@@ -1,4 +1,4 @@
-import { GRID_SIZE } from "../constants";
+import { GRID_SIZE_X, GRID_SIZE_Y } from "../constants";
 
 function createStorageBuffer(device: GPUDevice, label: string, size: number) {
   return device.createBuffer({
@@ -10,7 +10,7 @@ function createStorageBuffer(device: GPUDevice, label: string, size: number) {
 
 export default function getCellStateStorage(device: GPUDevice) {
   // Create an array representing the active state of each cell.
-  const cellStateArray = new Uint32Array(GRID_SIZE * GRID_SIZE);
+  const cellStateArray = new Uint32Array(GRID_SIZE_X * GRID_SIZE_Y);
 
   const cellStateStorage = [
     createStorageBuffer(

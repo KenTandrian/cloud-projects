@@ -1,7 +1,12 @@
 /// <reference types="@webgpu/types" />
 
 import configureCanvas from "./configureCanvas";
-import { GRID_SIZE, UPDATE_INTERVAL, WORKGROUP_SIZE } from "../constants";
+import {
+  GRID_SIZE_X,
+  GRID_SIZE_Y,
+  UPDATE_INTERVAL,
+  WORKGROUP_SIZE,
+} from "../constants";
 import getBindGroupLayout from "./getBindGroupLayout";
 import getBindGroups from "./getBindGroups";
 import getCellPipeline from "./getCellPipeline";
@@ -78,8 +83,9 @@ export async function setupGame(canvas: HTMLCanvasElement) {
     computePass.setPipeline(simulationPipeline);
     computePass.setBindGroup(0, bindGroups[step % 2]);
 
-    const workgroupCount = Math.ceil(GRID_SIZE / WORKGROUP_SIZE);
-    computePass.dispatchWorkgroups(workgroupCount, workgroupCount);
+    const workgroupCountX = Math.ceil(GRID_SIZE_X / WORKGROUP_SIZE);
+    const workgroupCountY = Math.ceil(GRID_SIZE_Y / WORKGROUP_SIZE);
+    computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
     computePass.end();
 
     step++; // Increment the step count
@@ -100,7 +106,7 @@ export async function setupGame(canvas: HTMLCanvasElement) {
     pass.setPipeline(cellPipeline);
     pass.setBindGroup(0, bindGroups[step % 2]); // Updated!
     pass.setVertexBuffer(0, vertexBuffer);
-    pass.draw(vertices.length / 2, GRID_SIZE * GRID_SIZE);
+    pass.draw(vertices.length / 2, GRID_SIZE_X * GRID_SIZE_Y);
 
     // End the render pass and submit the command buffer
     pass.end();
