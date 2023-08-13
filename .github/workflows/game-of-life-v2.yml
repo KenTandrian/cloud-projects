@@ -1,0 +1,41 @@
+name: Deploy Conway's Game of Life (V2)
+on: workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: "read"
+  id-token: "write"
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./game-of-life-v2
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      # Authenticate to Google Cloud
+      - name: Google Auth
+        id: auth
+        uses: "google-github-actions/auth@v1"
+        with:
+          token_format: "access_token"
+          workload_identity_provider: "${{ secrets.WIF_PROVIDER }}"
+          service_account: "${{ secrets.WIF_SERVICE_ACCOUNT }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: "${{ env.PROJECT_ID }}"
+
+      - name: Deploy to Cloud Build
+        run: gcloud builds submit --substitutions=_PROJECT_ID="${{ env.PROJECT_ID }}"
