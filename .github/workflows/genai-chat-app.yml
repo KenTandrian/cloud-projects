@@ -1,5 +1,9 @@
 name: Deploy GenAI Chat App
-on: workflow_dispatch
+on:
+  push:
+    branches: [main]
+    paths: ["genai-chat-app/**"]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

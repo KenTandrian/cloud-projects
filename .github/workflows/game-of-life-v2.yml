@@ -1,5 +1,9 @@
 name: Deploy Conway's Game of Life (V2)
-on: workflow_dispatch
+on:
+  push:
+    branches: [main]
+    paths: ["game-of-life-v2/**"]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
