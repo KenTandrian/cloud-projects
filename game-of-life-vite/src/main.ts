@@ -1,5 +1,5 @@
 import "./style.css";
-import { setupGame } from "./game.ts";
+import { setupGame } from "./game";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <h1>Conway's Game of Life</h1>
