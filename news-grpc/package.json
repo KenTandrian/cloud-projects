@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/node.ts",
   "scripts": {
+    "build": "./scripts/build.sh",
     "server": "ts-node src/server",
     "client": "ts-node src/client",
     "node-server": "ts-node src/node",
