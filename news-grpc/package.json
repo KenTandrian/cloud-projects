@@ -2,11 +2,11 @@
   "name": "news-grpc",
   "version": "1.0.0",
   "description": "",
-  "main": "src/node.js",
+  "main": "src/node.ts",
   "scripts": {
-    "server": "node src/server.js",
-    "client": "node src/client.js",
-    "node-server": "node src/node.js",
+    "server": "ts-node src/server",
+    "client": "ts-node src/client",
+    "node-server": "ts-node src/node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,5 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@grpc/grpc-js": "^1.9.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "ts-proto": "^1.156.7",
+    "typescript": "^5.1.6"
   }
 }
