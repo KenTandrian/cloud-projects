@@ -7,10 +7,16 @@ message News {
     string postImage = 4;
 }
 
+message RawNews {
+    string title = 1;
+    string body = 2;
+    string postImage = 3;
+}
+
 service NewsService {
     rpc GetAllNews (Empty) returns (NewsList) {};
     rpc GetNews (NewsId) returns (News) {}
-    rpc AddNews (News) returns (News) {}
+    rpc AddNews (RawNews) returns (News) {}
     rpc EditNews (News) returns (News) {}
     rpc DeleteNews (NewsId) returns (Empty) {}
 }

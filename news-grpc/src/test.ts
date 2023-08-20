@@ -9,7 +9,6 @@ client.getAllNews({}, (error, news) => {
 // Add a news
 client.addNews(
   {
-    id: "3",
     title: "Title news 3",
     body: "Body content 3",
     postImage: "Image URL here",

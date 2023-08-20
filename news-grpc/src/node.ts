@@ -65,7 +65,7 @@ const handleRequest = (
       break;
     case "POST":
       // POST /news
-      client.addNews({ id: "", body, postImage, title }, (error, news) => {
+      client.addNews({ body, postImage, title }, (error, news) => {
         if (error) throw error;
         res.end(JSON.stringify(news));
       });

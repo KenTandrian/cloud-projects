@@ -1,5 +1,5 @@
 import { ServerUnaryCall, sendUnaryData } from "@grpc/grpc-js";
-import { Empty, News, NewsId, NewsList } from "../dist/news";
+import { Empty, News, NewsId, NewsList, RawNews } from "../dist/news";
 
 let news = [
   { id: "1", title: "News 1", body: "Content 1", postImage: "Post image 1" },
@@ -23,7 +23,7 @@ export const getNews = (
 };
 
 export const addNews = (
-  _: ServerUnaryCall<News, News>,
+  _: ServerUnaryCall<RawNews, News>,
   callback: sendUnaryData<News>
 ) => {
   const _news = { ..._.request, id: Date.now().toString() };
