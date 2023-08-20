@@ -10,6 +10,7 @@ message News {
 service NewsService {
     rpc GetAllNews (Empty) returns (NewsList) {};
     rpc AddNews (News) returns (News) {}
+    rpc EditNews (News) returns (News) {}
     rpc DeleteNews (NewsId) returns (Empty) {}
 }
 
