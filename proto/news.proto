@@ -9,6 +9,7 @@ message News {
 
 service NewsService {
     rpc GetAllNews (Empty) returns (NewsList) {};
+    rpc AddNews (News) returns (News) {}
 }
 
 message Empty {}

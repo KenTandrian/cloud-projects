@@ -22,6 +22,11 @@ server.addService(newsProto.NewsService.service, {
   getAllNews: (_, callback) => {
     callback(null, { news });
   },
+  addNews: (call, callback) => {
+    const _news = { id: Date.now(), ...call.request };
+    news.push(_news);
+    callback(null, _news);
+  },
 });
 
 server.bindAsync(
