@@ -20,7 +20,7 @@ let news = [
 
 server.addService(newsProto.NewsService.service, {
   getAllNews: (_, callback) => {
-    callback(null, news);
+    callback(null, { news });
   },
 });
 
