@@ -17,7 +17,4 @@ const client = new NewsService(
   grpc.credentials.createInsecure()
 );
 
-client.getAllNews({}, (error, news) => {
-  if (error) throw error;
-  console.log(news);
-});
+module.exports = client;
