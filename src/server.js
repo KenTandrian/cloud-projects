@@ -24,20 +24,22 @@ server.addService(newsProto.NewsService.service, {
   },
   getNews: (_, callback) => {
     const newsId = _.request.id;
-    const newsItem = news.find(({ id }) => newsId == id);
+    const newsItem = news.find(({ id }) => newsId === id);
     callback(null, newsItem);
   },
   addNews: (call, callback) => {
-    const _news = { id: Date.now(), ...call.request };
+    const _news = { ...call.request, id: Date.now().toString() };
     news.push(_news);
     callback(null, _news);
   },
   editNews: (_, callback) => {
     const newsId = _.request.id;
-    const _news = news.find(({ id }) => newsId == id);
-    _news.body = _.request.body;
-    _news.postImage = _.request.postImage;
-    _news.title = _.request.title;
+    const _news = news.find(({ id }) => newsId === id);
+    if (_news) {
+      _news.body = _.request.body;
+      _news.postImage = _.request.postImage;
+      _news.title = _.request.title;
+    }
     callback(null, _news);
   },
   deleteNews: (_, callback) => {
