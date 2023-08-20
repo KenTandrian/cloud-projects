@@ -1,14 +1,33 @@
-const http = require("http");
-const client = require("./client");
+import http from "http";
+import client from "./client";
 
 const host = "localhost";
 const port = 8000;
 
-const requestListener = function (req, res) {
+const requestListener: http.RequestListener = function (req, res) {
   console.log(`Received request from ${req.url}.`);
-  const url = req.url.split("/").slice(1);
+  const url = req.url!.split("/").slice(1);
   const method = req.method;
 
+  let reqBody: any = [];
+  req
+    .on("data", (chunk) => {
+      reqBody += chunk;
+    })
+    .on("end", () => {
+      const body = reqBody.toString();
+      if (body) reqBody = JSON.parse(body);
+      handleRequest(method, url, reqBody, res);
+    });
+};
+
+const handleRequest = (
+  method: string | undefined,
+  url: string[],
+  reqBody: any,
+  res: http.ServerResponse
+) => {
+  const { body, postImage, title } = reqBody;
   switch (method) {
     case "GET":
       if (!url[0]) {
@@ -32,7 +51,6 @@ const requestListener = function (req, res) {
       break;
     case "PUT":
       // PUT /news/:id
-      const { body, postImage, title } = req.body;
       client.editNews({ id: url[1], body, postImage, title }, (error, news) => {
         if (error) throw error;
         res.end(JSON.stringify(news));
@@ -47,7 +65,7 @@ const requestListener = function (req, res) {
       break;
     case "POST":
       // POST /news
-      client.addNews({ body, postImage, title }, (error, news) => {
+      client.addNews({ id: "", body, postImage, title }, (error, news) => {
         if (error) throw error;
         res.end(JSON.stringify(news));
       });

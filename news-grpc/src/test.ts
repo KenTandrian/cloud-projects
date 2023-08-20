@@ -1,5 +1,5 @@
 // get all news
-const client = require("./client");
+import client from "./client";
 
 client.getAllNews({}, (error, news) => {
   if (error) throw error;
@@ -9,6 +9,7 @@ client.getAllNews({}, (error, news) => {
 // Add a news
 client.addNews(
   {
+    id: "3",
     title: "Title news 3",
     body: "Body content 3",
     postImage: "Image URL here",
@@ -34,7 +35,7 @@ client.editNews(
 );
 
 // Delete a news
-client.deleteNews({ id: 2 }, (error, news) => {
+client.deleteNews({ id: "2" }, (error, news) => {
   if (error) throw error;
   console.log("Successfully deleted a news item.");
 });

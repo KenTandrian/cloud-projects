@@ -1,25 +1,40 @@
+import { ServerUnaryCall, sendUnaryData } from "@grpc/grpc-js";
+import { Empty, News, NewsId, NewsList } from "../dist/news";
+
 let news = [
   { id: "1", title: "News 1", body: "Content 1", postImage: "Post image 1" },
   { id: "2", title: "News 2", body: "Content 2", postImage: "Post image 2" },
 ];
 
-const getAllNews = (_, callback) => {
+export const getAllNews = (
+  _: ServerUnaryCall<Empty, NewsList>,
+  callback: sendUnaryData<NewsList>
+) => {
   callback(null, { news });
 };
 
-const getNews = (_, callback) => {
+export const getNews = (
+  _: ServerUnaryCall<NewsId, News>,
+  callback: sendUnaryData<News>
+) => {
   const newsId = _.request.id;
   const newsItem = news.find(({ id }) => newsId === id);
   callback(null, newsItem);
 };
 
-const addNews = (call, callback) => {
-  const _news = { ...call.request, id: Date.now().toString() };
+export const addNews = (
+  _: ServerUnaryCall<News, News>,
+  callback: sendUnaryData<News>
+) => {
+  const _news = { ..._.request, id: Date.now().toString() };
   news.push(_news);
   callback(null, _news);
 };
 
-const editNews = (_, callback) => {
+export const editNews = (
+  _: ServerUnaryCall<News, News>,
+  callback: sendUnaryData<News>
+) => {
   const newsId = _.request.id;
   const _news = news.find(({ id }) => newsId === id);
   if (_news) {
@@ -30,16 +45,11 @@ const editNews = (_, callback) => {
   callback(null, _news);
 };
 
-const deleteNews = (_, callback) => {
+export const deleteNews = (
+  _: ServerUnaryCall<NewsId, Empty>,
+  callback: sendUnaryData<Empty>
+) => {
   const newsId = _.request.id;
   news = news.filter(({ id }) => id !== newsId);
   callback(null, {});
-};
-
-module.exports = {
-  getAllNews,
-  getNews,
-  addNews,
-  editNews,
-  deleteNews,
 };

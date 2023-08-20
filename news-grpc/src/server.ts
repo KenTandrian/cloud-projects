@@ -1,15 +1,9 @@
-const grpc = require("@grpc/grpc-js");
-const protoLoader = require("@grpc/proto-loader");
-const {
-  addNews,
-  deleteNews,
-  editNews,
-  getAllNews,
-  getNews,
-} = require("./services");
+import * as grpc from "@grpc/grpc-js";
+import * as protoLoader from "@grpc/proto-loader";
+import { addNews, deleteNews, editNews, getAllNews, getNews } from "./services";
 
 const PROTO_PATH = "./proto/news.proto";
-const options = {
+const options: protoLoader.Options = {
   keepCase: true,
   longs: String,
   enums: String,
@@ -18,10 +12,11 @@ const options = {
 };
 var packageDefinition = protoLoader.loadSync(PROTO_PATH, options);
 const newsProto = grpc.loadPackageDefinition(packageDefinition);
+const newsService = newsProto.NewsService as grpc.ServiceClientConstructor;
 
 const server = new grpc.Server();
 
-server.addService(newsProto.NewsService.service, {
+server.addService(newsService.service, {
   getAllNews,
   getNews,
   addNews,
@@ -33,7 +28,8 @@ server.bindAsync(
   "127.0.0.1:50051",
   grpc.ServerCredentials.createInsecure(),
   (err, port) => {
-    console.log(`Server running at http://127.0.0.1:50051`);
+    if (err) console.error(err);
+    console.log(`Server running at http://127.0.0.1:${port}`);
     server.start();
   }
 );
