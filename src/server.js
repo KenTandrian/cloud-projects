@@ -27,6 +27,11 @@ server.addService(newsProto.NewsService.service, {
     news.push(_news);
     callback(null, _news);
   },
+  deleteNews: (_, callback) => {
+    const newsId = _.request.id;
+    news = news.filter(({ id }) => id !== newsId);
+    callback(null, {});
+  },
 });
 
 server.bindAsync(
