@@ -17,7 +17,10 @@ This is a collection of my demo cloud projects.
 3. **Conway's Game of Life V2**
    - An updated version of the previous project.
    - Tools: Vite, TypeScript, WebGPU, Nginx, Docker, Cloud Run
-4. **Coming soon**
+4. **News GRPC API**
+   - A gRPC API project for getting and managing articles data.
+   - Tools: gRPC, TypeScript, Protobuf
+5. **Coming soon**
 
 ##
 
