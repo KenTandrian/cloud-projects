@@ -14,3 +14,8 @@ updates:
     directory: "/game-of-life-v2"
     schedule:
       interval: weekly
+
+  - package-ecosystem: npm
+    directory: "/news-grpc"
+    schedule:
+      interval: weekly
