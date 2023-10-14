@@ -13,6 +13,6 @@
     "vite": "4.4.11"
   },
   "dependencies": {
-    "@webgpu/types": "^0.1.37"
+    "@webgpu/types": "^0.1.38"
   }
 }
