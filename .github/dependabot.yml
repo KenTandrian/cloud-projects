@@ -19,3 +19,8 @@ updates:
     directory: "/news-grpc"
     schedule:
       interval: weekly
+
+  - package-ecosystem: cargo
+    directory: "/game-of-life-wasm"
+    schedule:
+      interval: weekly
