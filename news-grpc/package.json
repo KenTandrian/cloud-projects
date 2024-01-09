@@ -1,6 +1,6 @@
 {
   "name": "news-grpc",
-  "version": "1.1.76",
+  "version": "1.1.85",
   "description": "",
   "main": "src/node.ts",
   "scripts": {
