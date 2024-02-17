@@ -1,4 +1,12 @@
 steps:
+  # Pull latest image
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args: 
+      [
+        "-c", 
+        "docker pull ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE}:latest || exit 0"
+      ]
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
     args:
