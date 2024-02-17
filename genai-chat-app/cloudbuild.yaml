@@ -6,6 +6,8 @@ steps:
         "build",
         "-t",
         "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE}:latest",
+        "--cache-from",
+        "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE}:latest",
         ".",
       ]
   # Push the container image to Artifact Registry
