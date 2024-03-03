@@ -1,5 +1,6 @@
-from langchain import PromptTemplate, LLMChain
+from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
 from langchain_google_vertexai import VertexAI
 import streamlit as st
 
