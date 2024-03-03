@@ -23,7 +23,7 @@ def LLM_init():
 
     llm_chain = LLMChain(
         prompt=promptllm,
-        llm=VertexAI(),
+        llm=VertexAI(max_output_tokens=2048),
         memory=memory,
         verbose=True
     )
