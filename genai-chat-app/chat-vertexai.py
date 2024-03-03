@@ -1,4 +1,4 @@
-from langchain.llms import VertexAI
+from langchain_community.llms import VertexAI
 from langchain import PromptTemplate, LLMChain
 from langchain.memory import ConversationBufferMemory
 import streamlit as st
