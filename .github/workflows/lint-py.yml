@@ -10,7 +10,8 @@ env:
   PY_VERSION: 3.12
 
 jobs:
-  build:
+  lint:
+    name: Lint files
     runs-on: ubuntu-latest
     defaults:
       run:
