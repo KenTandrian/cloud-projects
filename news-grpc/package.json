@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
-    "ts-proto": "^1.174.0",
+    "ts-proto": "^1.176.0",
     "typescript": "^5.4.5"
   }
 }
