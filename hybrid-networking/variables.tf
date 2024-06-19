@@ -17,13 +17,3 @@ variable "region" {
     type = string
     description = "The region for all environment"
 }
-
-variable "vpn_shared_secret_1" {
-    type = string
-    description = "The VPN shared secret for first VPN tunnel between hub and simulated on-premise"
-}
-
-variable "vpn_shared_secret_2" {
-    type = string
-    description = "The VPN shared secret for second VPN tunnel between hub and simulated on-premise"
-}
