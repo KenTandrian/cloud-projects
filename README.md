@@ -20,8 +20,10 @@ This is a collection of my demo cloud projects.
 4. **News GRPC API**
    - A gRPC API project for getting and managing articles data.
    - Tools: gRPC, TypeScript, Protobuf
-5. **Coming soon**
+5. **Hybrid Networking using Hub-and-spoke Topology**
+   - Connecting on-premise infrastructure to Google Cloud with hub-and-spoke topology implementation.
+   - Tools: Terraform
 
 ##
 
-&#169; Ken Tandrian 2023.
+&#169; Ken Tandrian 2024.
