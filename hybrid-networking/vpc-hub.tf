@@ -1,6 +1,6 @@
 resource "google_compute_network" "hub-network" {
-    project = var.hub_project_id
     name = "hub-network"
+    project = var.hub_project_id
 }
 
 resource "google_compute_subnetwork" "hub-subnet" {

@@ -17,3 +17,8 @@ variable "region" {
     type = string
     description = "The region for all environment"
 }
+
+variable "onprem_dns_server_ip" {
+    type = string
+    description = "The DNS server IP for simulated on-premise environment"
+}

@@ -1,6 +1,6 @@
 resource "google_compute_network" "onprem-network" {
-    project = var.onprem_project_id
     name = "onprem-network"
+    project = var.onprem_project_id
 }
 
 resource "google_compute_subnetwork" "onprem-subnet" {
