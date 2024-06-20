@@ -73,7 +73,7 @@ resource "google_compute_vpn_tunnel" "hub-tunnel0" {
 }
 
 resource "google_compute_vpn_tunnel" "hub-tunnel1" {
-  name                  = "hub-tunnel0"
+  name                  = "hub-tunnel1"
   project               = var.hub_project_id
   region                = var.region
   router                = google_compute_router.hub-router1.id
@@ -99,7 +99,7 @@ resource "google_compute_vpn_tunnel" "onprem-tunnel0" {
 }
 
 resource "google_compute_vpn_tunnel" "onprem-tunnel1" {
-  name                  = "onprem-tunnel0"
+  name                  = "onprem-tunnel1"
   project               = var.onprem_project_id
   region                = var.region
   router                = google_compute_router.onprem-router1.id
