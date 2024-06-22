@@ -1,4 +1,4 @@
-resource "google_dns_record_set" "test.cloud.local" {
+resource "google_dns_record_set" "test_cloud_local" {
   name = "test.cloud.local."
   type = "A"
   ttl  = 300
@@ -7,7 +7,7 @@ resource "google_dns_record_set" "test.cloud.local" {
   rrdatas = [google_compute_instance.hub-vm.network_interface[0].network_ip]
 }
 
-resource "google_dns_record_set" "test.spoke.cloud.local" {
+resource "google_dns_record_set" "test_spoke_cloud_local" {
   name = "test.spoke.cloud.local."
   type = "A"
   ttl  = 300
