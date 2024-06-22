@@ -15,7 +15,7 @@ resource "google_dns_managed_zone" "spoke-local-zone" {
 resource "google_dns_managed_zone" "hub-peering-zone" {
   name        = "hub-peering-zone"
   project     = var.spoke_project_id
-  dns_name    = "cloud.local."
+  dns_name    = "local."
   description = "Private DNS peering zone to hub network"
   visibility  = "private"
 
