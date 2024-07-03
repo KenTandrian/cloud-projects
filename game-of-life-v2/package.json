@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "esbuild": "0.22.0",
+    "esbuild": "0.23.0",
     "rollup": "4.18.0",
     "typescript": "5.5.2",
     "vite": "5.3.3"
