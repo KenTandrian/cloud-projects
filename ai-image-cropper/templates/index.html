@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content-Aware Image Cropper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Content-Aware Image Cropper</h1>
+
+        <form method="POST" enctype="multipart/form-data" class="mb-4">
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image:</label>
+                <input type="file" class="form-control" id="image" name="image">
+            </div>
+            <div class="mb-3">
+                <label for="focus_object" class="form-label">Object to Focus:</label>
+                <input type="text" class="form-control" id="focus_object" name="focus_object" placeholder="Enter object (e.g., 'person', 'cat', 'building')">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+
+        {% if cropped_image and annotated_image %}
+            <div class="row">
+                <!-- Align center -->
+                <div class="col-md-6 text-center">
+                    <h2 class="mb-3">Cropped Image</h2>
+                    <img src="data:image/png;base64,{{ cropped_image }}" alt="Cropped Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 text-center">
+                    <h2 class="mb-3">Annotated Image</h2>
+                    <img src="data:image/png;base64,{{ annotated_image }}" alt="Annotated Image" class="img-fluid">
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
