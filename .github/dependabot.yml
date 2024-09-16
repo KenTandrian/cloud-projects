@@ -9,6 +9,11 @@ updates:
     directory: "/genai-chat-app"
     schedule:
       interval: weekly
+    groups:
+      langchain:
+        patterns:
+          - "langchain"
+          - "langchain-*"
 
   - package-ecosystem: npm
     directory: "/game-of-life-v2"
