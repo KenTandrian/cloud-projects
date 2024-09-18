@@ -1,8 +1,8 @@
-name: Deploy Conway's Game of Life
+name: Deploy Conway's Game of Life (Vanilla)
 on:
   push:
     branches: [main]
-    paths: ["game-of-life/**"]
+    paths: ["game-of-life/with-vanilla/**"]
   workflow_dispatch:
 
 concurrency:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./game-of-life
+        working-directory: ./game-of-life/with-vanilla
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4

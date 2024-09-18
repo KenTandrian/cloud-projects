@@ -16,7 +16,7 @@ updates:
           - "langchain-*"
 
   - package-ecosystem: npm
-    directory: "/game-of-life-v2"
+    directory: "/game-of-life/with-vite"
     schedule:
       interval: weekly
 
@@ -26,6 +26,6 @@ updates:
       interval: weekly
 
   - package-ecosystem: cargo
-    directory: "/game-of-life-wasm"
+    directory: "/game-of-life/with-wasm"
     schedule:
       interval: weekly

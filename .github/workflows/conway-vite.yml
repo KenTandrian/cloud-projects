@@ -1,8 +1,8 @@
-name: Deploy Conway's Game of Life (V2)
+name: Deploy Conway's Game of Life (Vite)
 on:
   push:
     branches: [main]
-    paths: ["game-of-life-v2/**"]
+    paths: ["game-of-life/with-vite/**"]
   workflow_dispatch:
 
 concurrency:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./game-of-life-v2
+        working-directory: ./game-of-life/with-vite
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
