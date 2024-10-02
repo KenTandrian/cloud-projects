@@ -43,4 +43,4 @@ jobs:
           project_id: "${{ env.PROJECT_ID }}"
 
       - name: Deploy to Cloud Build
-        run: gcloud builds submit --substitutions=_PROJECT_ID="${{ env.PROJECT_ID }}",_SERVICE_ACCOUNT="${{ env.SERVICE_ACCOUNT }}"
+        run: gcloud beta builds submit --substitutions=_PROJECT_ID="${{ env.PROJECT_ID }}",_SERVICE_ACCOUNT="${{ env.SERVICE_ACCOUNT }}"
