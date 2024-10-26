@@ -16,10 +16,5 @@
   },
   "dependencies": {
     "@webgpu/types": "^0.1.49"
-  },
-  "overrides": {
-    "vite": {
-      "esbuild": "^0.21.0"
-    }
   }
 }
