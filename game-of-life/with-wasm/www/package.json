@@ -1,5 +1,5 @@
 {
-  "name": "create-wasm-app",
+  "name": "game-of-life-wasm",
   "version": "0.3.60",
   "description": "create an app to consume rust-generated wasm packages",
   "main": "index.js",
