@@ -5,16 +5,6 @@ updates:
     schedule:
       interval: weekly
 
-  - package-ecosystem: pip
-    directory: "/genai-chat-app"
-    schedule:
-      interval: weekly
-    groups:
-      langchain:
-        patterns:
-          - "langchain"
-          - "langchain-*"
-
   - package-ecosystem: npm
     directory: "/game-of-life/with-vite"
     schedule:
