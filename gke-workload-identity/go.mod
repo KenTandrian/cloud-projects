@@ -1,6 +1,6 @@
 module gke-workload-identity
 
-go 1.22.4
+go 1.24.0
 
 require cloud.google.com/go/storage v1.42.0
 
