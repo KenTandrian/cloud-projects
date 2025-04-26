@@ -8,14 +8,19 @@ to focus on those objects.
 import base64
 import io
 import vertexai
+from decouple import config
 from flask import Flask, render_template, request
 from PIL import Image, ImageDraw
 from vertexai.generative_models import GenerativeModel, Part
 from vertexai.preview.generative_models import HarmBlockThreshold, HarmCategory
 
-vertexai.init(project="vertex-ai-demo-415614", location="asia-southeast1")
+PROJECT_ID = config("PROJECT_ID", default="your-project-id")
+LOCATION = config("LOCATION", default="asia-southeast1")
+MODEL = config("MODEL", default="gemini-1.5-pro-002")
+
+vertexai.init(project=PROJECT_ID, location=LOCATION)
 model = GenerativeModel(
-    "gemini-1.5-pro-002",
+    MODEL,
     system_instruction=[
         """
         You are an expert in detecting objects in a picture.
