@@ -15,7 +15,7 @@ from vertexai.preview.generative_models import HarmBlockThreshold, HarmCategory
 
 vertexai.init(project="vertex-ai-demo-415614", location="asia-southeast1")
 model = GenerativeModel(
-    "gemini-1.5-pro-001",
+    "gemini-1.5-pro-002",
     system_instruction=[
         """
         You are an expert in detecting objects in a picture.
@@ -49,7 +49,8 @@ def get_object_bbox_from_gemini(image_data, focus_object):
     Gemini will return bounding boxes in the format:
     [top, left, bottom, right]
     """
-    image1 = Part.from_data(mime_type="image/jpeg", data=base64.b64decode(image_data))
+    image1 = Part.from_data(mime_type="image/jpeg",
+                            data=base64.b64decode(image_data))
     text1 = Part.from_text(
         f"I want a bounding box that covers {focus_object} in this picture. "
         "Give me the bounding boxes."
@@ -71,7 +72,8 @@ def get_object_bbox_from_gemini(image_data, focus_object):
     ]
 
     # Correct the order of coordinates for PIL
-    object_bbox = [[bbox[1], bbox[0], bbox[3], bbox[2]] for bbox in object_bbox]
+    object_bbox = [[bbox[1], bbox[0], bbox[3], bbox[2]]
+                   for bbox in object_bbox]
 
     # Convert to tuples
     object_bbox = [tuple(bbox) for bbox in object_bbox]
@@ -124,7 +126,8 @@ def crop_image(image_data, object_bbox):
         bottom_right_y = top_left_y + side_length
 
     # Crop the image with square aspect ratio
-    cropped_image = im.crop((top_left_x, top_left_y, bottom_right_x, bottom_right_y))
+    cropped_image = im.crop(
+        (top_left_x, top_left_y, bottom_right_x, bottom_right_y))
 
     # Convert cropped image to base64
     buffered = io.BytesIO()
@@ -192,7 +195,7 @@ def index():
             # Get object bounding box from Gemini
             object_bbox = get_object_bbox_from_gemini(image_data, focus_object)
 
-            # Crop and annotate the image 
+            # Crop and annotate the image
             cropped_image_data = crop_image(image_data, object_bbox)
             annotated_image_data = annotate_image(image_data, object_bbox)
             return render_template(
