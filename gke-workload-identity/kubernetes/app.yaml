@@ -19,6 +19,9 @@ spec:
         - name: go-http-server
           image: asia-southeast2-docker.pkg.dev/my-project-id/my-repo/go-http-server
           resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
             limits:
               memory: "128Mi"
               cpu: "500m"
