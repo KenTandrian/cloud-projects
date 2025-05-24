@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@grpc/grpc-js": "1.13.3"
+    "@grpc/grpc-js": "1.13.4"
   },
   "devDependencies": {
     "ts-node": "10.9.2",
