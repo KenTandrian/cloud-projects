@@ -12,7 +12,7 @@
     "esbuild": "0.25.5",
     "rollup": "4.44.0",
     "typescript": "5.8.3",
-    "vite": "6.3.5"
+    "vite": "7.0.0"
   },
   "dependencies": {
     "@webgpu/types": "0.1.61"
