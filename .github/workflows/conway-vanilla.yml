@@ -24,7 +24,7 @@ jobs:
         working-directory: ./game-of-life/with-vanilla
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Authenticate to Google Cloud
       - name: Google Auth
