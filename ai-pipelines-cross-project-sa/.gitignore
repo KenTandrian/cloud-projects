@@ -11,7 +11,8 @@
 *.tfvars.json
 
 # Vertex AI Pipeline
-hello-world-pipeline.json
+pipeline.json
 
 # Python
 .venv
+.env
