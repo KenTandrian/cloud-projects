@@ -1,0 +1,17 @@
+# Local .terraform directories
+**/.terraform/*
+.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+*.tfvars.json
+
+# Vertex AI Pipeline
+hello-world-pipeline.json
+
+# Python
+.venv
