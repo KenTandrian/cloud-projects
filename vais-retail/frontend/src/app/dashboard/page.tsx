@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { ProductCard } from "@/components/product-card";
@@ -114,10 +115,9 @@ export default function Dashboard() {
             ))
           ) : recentlyViewedRecs.length > 0 ? (
             recentlyViewedRecs.map((rec) => (
-              <ProductCard
-                key={rec.id}
-                product={protoJsonToJs(rec.metadata?.product)}
-              />
+              <Link href={`/product/${rec.id}`} key={rec.id}>
+                <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+              </Link>
             ))
           ) : (
             <p>No recent activity found.</p>
@@ -137,10 +137,9 @@ export default function Dashboard() {
             ))
           ) : rfyRecs.length > 0 ? (
             rfyRecs.map((rec) => (
-              <ProductCard
-                key={rec.id}
-                product={protoJsonToJs(rec.metadata?.product)}
-              />
+              <Link href={`/product/${rec.id}`} key={rec.id}>
+                <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+              </Link>
             ))
           ) : (
             <p>No recommendations found for this profile.</p>

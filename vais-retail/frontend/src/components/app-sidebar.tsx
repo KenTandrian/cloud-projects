@@ -1,6 +1,6 @@
 "use client";
 
-import { DollarSign, Home, LayoutDashboard } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -15,22 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-const data = {
-  navMain: [
-    {
-      title: "Home",
-      url: "/",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboard,
-    },
-  ],
-};
+import { NAV_DATA } from "@/config/nav";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -53,7 +38,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={NAV_DATA} />
       </SidebarContent>
       <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
     </Sidebar>
