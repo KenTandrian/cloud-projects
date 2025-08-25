@@ -7,7 +7,9 @@ export function ProductCard({ product }: { product?: IProduct | null }) {
   return (
     <Card className="justify-between">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium line-clamp-2">{product?.title ?? product?.id}</CardTitle>
+        <CardTitle className="text-sm font-medium line-clamp-2">
+          {product?.title ?? product?.id}
+        </CardTitle>
         {logo && (
           // eslint-disable-next-line @next/next/no-img-element
           <img

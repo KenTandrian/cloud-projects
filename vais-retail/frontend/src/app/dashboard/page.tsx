@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import { ProductCard } from "@/components/product-card";
-import { IRecommendationResult } from "@/lib/types";
+import { RecommendationHeader } from "@/components/reco-header";
 import {
   Select,
   SelectContent,
@@ -10,14 +11,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RecommendationHeader } from "@/components/reco-header";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { protoJsonToJs } from "@/lib/proto";
+import { IRecommendationResult } from "@/lib/types";
 
 const VISITOR_PROFILES = [
-  { id: "visitor-value-1-1", label: "Conservative Value Investor" },
-  { id: "visitor-tech-2-5", label: "Tech-Savvy Investor" },
-  { id: "visitor-hedger-3-10", label: "Strategic Hedger" },
+  { id: "visitor-value-1-6", label: "Conservative Value Investor 1" },
+  { id: "visitor-value-75-20", label: "Conservative Value Investor 2" },
+  { id: "visitor-value-25-6", label: "Conservative Value Investor 3" },
+  { id: "visitor-tech-2-5", label: "Tech-Savvy Investor 1" },
+  { id: "visitor-tech-59-0", label: "Tech-Savvy Investor 2" },
+  { id: "visitor-tech-37-48", label: "Tech-Savvy Investor 3" },
+  { id: "visitor-hedger-3-10", label: "Strategic Hedger 1" },
+  { id: "visitor-hedger-38-47", label: "Strategic Hedger 2" },
+  { id: "visitor-hedger-0-37", label: "Strategic Hedger 3" },
 ];
 
 export default function Dashboard() {
@@ -92,51 +100,53 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {loading ? (
-        <p>Loading recommendations...</p>
-      ) : (
-        <>
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-2">
-              Your Recently Viewed Stocks
-            </h2>
-            <p className="text-sm text-muted-foreground mb-4">
-              A simple recap of your recent activity.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {recentlyViewedRecs.length > 0 ? (
-                recentlyViewedRecs.map((rec) => (
-                  <ProductCard
-                    key={rec.id}
-                    product={protoJsonToJs(rec.metadata?.product)}
-                  />
-                ))
-              ) : (
-                <p>No recent activity found.</p>
-              )}
-            </div>
-          </section>
+      <section className="mb-12">
+        <h2 className="text-2xl font-semibold mb-2">
+          Your Recently Viewed Stocks
+        </h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          A simple recap of your recent activity.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {loading ? (
+            Array.from({ length: 20 }).map((x, i) => (
+              <Skeleton className="h-42 w-full" key={i} />
+            ))
+          ) : recentlyViewedRecs.length > 0 ? (
+            recentlyViewedRecs.map((rec) => (
+              <ProductCard
+                key={rec.id}
+                product={protoJsonToJs(rec.metadata?.product)}
+              />
+            ))
+          ) : (
+            <p>No recent activity found.</p>
+          )}
+        </div>
+      </section>
 
-          <Separator />
+      <Separator />
 
-          <section className="mt-8">
-            <h2 className="text-2xl font-semibold mb-2">Recommended For You</h2>
-            <RecommendationHeader visitorId={selectedVisitorId} />
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {rfyRecs.length > 0 ? (
-                rfyRecs.map((rec) => (
-                  <ProductCard
-                    key={rec.id}
-                    product={protoJsonToJs(rec.metadata?.product)}
-                  />
-                ))
-              ) : (
-                <p>No recommendations found for this profile.</p>
-              )}
-            </div>
-          </section>
-        </>
-      )}
+      <section className="mt-8">
+        <h2 className="text-2xl font-semibold mb-2">Recommended For You</h2>
+        <RecommendationHeader visitorId={selectedVisitorId} />
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {loading ? (
+            Array.from({ length: 20 }).map((x, i) => (
+              <Skeleton className="h-42 w-full" key={i} />
+            ))
+          ) : rfyRecs.length > 0 ? (
+            rfyRecs.map((rec) => (
+              <ProductCard
+                key={rec.id}
+                product={protoJsonToJs(rec.metadata?.product)}
+              />
+            ))
+          ) : (
+            <p>No recommendations found for this profile.</p>
+          )}
+        </div>
+      </section>
     </main>
   );
 }

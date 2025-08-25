@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { CompletionServiceClient } from "@google-cloud/retail";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new CompletionServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;

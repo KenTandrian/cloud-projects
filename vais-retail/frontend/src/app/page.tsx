@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ISearchResult } from "@/lib/types";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
   const [query, setQuery] = useState("");

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { v2alpha } from "@google-cloud/retail";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new v2alpha.SearchServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;

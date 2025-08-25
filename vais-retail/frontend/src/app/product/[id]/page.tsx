@@ -2,6 +2,7 @@ import {
   PredictionServiceClient,
   ProductServiceClient,
 } from "@google-cloud/retail";
+
 import { ProductCard } from "@/components/product-card";
 import { Separator } from "@/components/ui/separator";
 import { protoJsonToJs } from "@/lib/proto";

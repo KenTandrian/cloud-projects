@@ -1,7 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { DollarSign, Home, LayoutDashboard } from "lucide-react";
+import Link from "next/link";
+import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
 // import { NavUser } from "@/components/nav-user";
@@ -14,7 +15,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 
 const data = {
   navMain: [

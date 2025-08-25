@@ -10,17 +10,17 @@ interface ProfileExplanation {
 
 // Map visitor IDs to specific explanations for the demo narrative
 const EXPLANATIONS: Record<string, ProfileExplanation> = {
-  "visitor-value-1-1": {
+  value: {
     title: "Profile: Conservative Value Investor",
     description:
       "Based on this client's history of viewing and purchasing stable, dividend-paying companies, the 'Recommended for You' model is suggesting other blue-chip stocks with strong value metrics.",
   },
-  "visitor-tech-2-5": {
+  tech: {
     title: "Profile: Tech-Savvy Investor",
     description:
       "This client shows a strong interest in the technology sector and high-growth stocks. The model is recommending other innovative tech companies that align with their profile.",
   },
-  "visitor-hedger-3-10": {
+  hedger: {
     title: "Profile: Strategic Hedger",
     description:
       "This client often pairs high-growth investments with stable assets. The recommendations reflect a blend of innovative tech and established, blue-chip companies.",
@@ -28,7 +28,8 @@ const EXPLANATIONS: Record<string, ProfileExplanation> = {
 };
 
 export function RecommendationHeader({ visitorId }: { visitorId: string }) {
-  const explanation = EXPLANATIONS[visitorId] || {
+  const persona = visitorId.split("-")[1];
+  const explanation = EXPLANATIONS[persona] || {
     title: "General Profile",
     description:
       "Displaying personalized recommendations based on this client's activity.",
