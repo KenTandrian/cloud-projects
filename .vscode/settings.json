@@ -1,4 +1,8 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnSave": true,
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
   },
