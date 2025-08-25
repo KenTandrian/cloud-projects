@@ -1,0 +1,142 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { ProductCard } from "@/components/product-card";
+import { IRecommendationResult } from "@/lib/types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RecommendationHeader } from "@/components/reco-header";
+import { Separator } from "@/components/ui/separator";
+import { protoJsonToJs } from "@/lib/proto";
+
+const VISITOR_PROFILES = [
+  { id: "visitor-value-1-1", label: "Conservative Value Investor" },
+  { id: "visitor-tech-2-5", label: "Tech-Savvy Investor" },
+  { id: "visitor-hedger-3-10", label: "Strategic Hedger" },
+];
+
+export default function Dashboard() {
+  const [selectedVisitorId, setSelectedVisitorId] = useState(
+    VISITOR_PROFILES[0].id
+  );
+  const [rfyRecs, setRfyRecs] = useState<IRecommendationResult[]>([]);
+  const [recentlyViewedRecs, setRecentlyViewedRecs] = useState<
+    IRecommendationResult[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAllRecommendations = async () => {
+      if (!selectedVisitorId) return;
+
+      setLoading(true);
+      try {
+        // Fetch both sets of recommendations in parallel for efficiency
+        const [rfyResponse, recentlyViewedResponse] = await Promise.all([
+          fetch(
+            `/api/recommendations?modelType=rfy&visitorId=${selectedVisitorId}`
+          ),
+          fetch(
+            `/api/recommendations?modelType=rv&visitorId=${selectedVisitorId}`
+          ),
+        ]);
+
+        const rfyData = await rfyResponse.json();
+        const recentlyViewedData = await recentlyViewedResponse.json();
+
+        setRfyRecs(rfyData.results || []);
+        setRecentlyViewedRecs(recentlyViewedData.results || []);
+      } catch (error) {
+        console.error("Failed to fetch recommendations:", error);
+        setRfyRecs([]);
+        setRecentlyViewedRecs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllRecommendations();
+  }, [selectedVisitorId]);
+
+  return (
+    <main className="container mx-auto p-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <h1 className="text-3xl font-bold mb-4 md:mb-0">
+          Personalized Dashboard
+        </h1>
+
+        <div className="flex items-center space-x-2">
+          <label htmlFor="visitor-select" className="text-sm font-medium">
+            Select a Client Profile:
+          </label>
+          <Select
+            onValueChange={setSelectedVisitorId}
+            defaultValue={selectedVisitorId}
+          >
+            <SelectTrigger id="visitor-select" className="w-[280px]">
+              <SelectValue placeholder="Select a client profile..." />
+            </SelectTrigger>
+            <SelectContent>
+              {VISITOR_PROFILES.map((profile) => (
+                <SelectItem key={profile.id} value={profile.id}>
+                  {profile.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {loading ? (
+        <p>Loading recommendations...</p>
+      ) : (
+        <>
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-2">
+              Your Recently Viewed Stocks
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              A simple recap of your recent activity.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {recentlyViewedRecs.length > 0 ? (
+                recentlyViewedRecs.map((rec) => (
+                  <ProductCard
+                    key={rec.id}
+                    product={protoJsonToJs(rec.metadata?.product)}
+                  />
+                ))
+              ) : (
+                <p>No recent activity found.</p>
+              )}
+            </div>
+          </section>
+
+          <Separator />
+
+          <section className="mt-8">
+            <h2 className="text-2xl font-semibold mb-2">Recommended For You</h2>
+            <RecommendationHeader visitorId={selectedVisitorId} />
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {rfyRecs.length > 0 ? (
+                rfyRecs.map((rec) => (
+                  <ProductCard
+                    key={rec.id}
+                    product={protoJsonToJs(rec.metadata?.product)}
+                  />
+                ))
+              ) : (
+                <p>No recommendations found for this profile.</p>
+              )}
+            </div>
+          </section>
+        </>
+      )}
+    </main>
+  );
+}
