@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { VisitorIdProvider } from "@/components/visitor-id-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,10 +25,12 @@ export default function RootLayout({
   return (
     <html className="dark" lang="en">
       <body className={cn(inter.className, "antialiased")}>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>{children}</SidebarInset>
-        </SidebarProvider>
+        <VisitorIdProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>{children}</SidebarInset>
+          </SidebarProvider>
+        </VisitorIdProvider>
       </body>
     </html>
   );

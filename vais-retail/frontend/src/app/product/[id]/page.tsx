@@ -1,4 +1,5 @@
 import { ProductServiceClient } from "@google-cloud/retail";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 import { EventTracker } from "@/components/event-tracker";
@@ -16,7 +17,7 @@ export default async function ProductPage({
   params,
 }: PageProps<"/product/[id]">) {
   const productId = (await params).id;
-  const visitorId = "visitor-tech-2-5";
+  const visitorId = (await cookies()).get("visitorId")?.value ?? "";
   const productName = `projects/${projectId}/locations/global/catalogs/default_catalog/branches/default_branch/products/${productId}`;
 
   // Fetch the main product, OYML, and FBT recommendations in parallel
