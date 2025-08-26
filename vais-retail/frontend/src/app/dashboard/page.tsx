@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import { ProductCard } from "@/components/product-card";
 import { RecommendationHeader } from "@/components/reco-header";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useVisitorIdContext } from "@/components/visitor-id-provider";
 import { protoJsonToJs } from "@/lib/proto";
 import { IRecommendationResult } from "@/lib/types";
 

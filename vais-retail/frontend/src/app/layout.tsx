@@ -1,6 +1,7 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
+import { Provider } from "@/components/layout/provider";
+import { VisitorIdProvider } from "@/components/layout/visitor-id-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { VisitorIdProvider } from "@/components/visitor-id-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className={cn(inter.className, "antialiased")}>
         <VisitorIdProvider>
           <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>{children}</SidebarInset>
+            <Provider>
+              <AppSidebar />
+              <SidebarInset>{children}</SidebarInset>
+            </Provider>
           </SidebarProvider>
         </VisitorIdProvider>
       </body>

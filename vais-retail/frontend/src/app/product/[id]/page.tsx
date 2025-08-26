@@ -71,7 +71,10 @@ export default async function ProductPage({
             Object.entries(product.attributes).map(([key, value]) => (
               <div key={key}>
                 <h3 className="font-semibold">{key}</h3>
-                <p>{value.text?.join(", ") || value.numbers?.[0]}</p>
+                <p>
+                  {value.text?.join(", ") ||
+                    value.numbers?.[0].toLocaleString()}
+                </p>
               </div>
             ))}
         </div>

@@ -2,6 +2,7 @@
 
 import { ChevronsUpDown, User2 } from "lucide-react";
 
+import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,7 +16,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useVisitorIdContext } from "@/components/visitor-id-provider";
 
 const VISITOR_PROFILES = [
   { id: "investor-value-15", label: "Conservative (Value) Investor 1" },
