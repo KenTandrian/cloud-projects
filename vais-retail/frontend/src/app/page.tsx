@@ -1,18 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
+
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ISearchResult } from "@/lib/types";
-import Link from "next/link";
-import { useState } from "react";
 
 export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ISearchResult[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
+  async function handleSearch() {
     if (!query) return;
     setLoading(true);
     const response = await fetch(
@@ -21,10 +22,10 @@ export default function Home() {
     const data: ISearchResult[] = await response.json();
     setResults(data || []);
     setLoading(false);
-  };
+  }
 
   return (
-    <main className="container mx-auto px-8 py-4">
+    <main className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-4">FyberInvest Search</h1>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-8">
         <Input

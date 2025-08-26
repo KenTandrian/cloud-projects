@@ -1,11 +1,12 @@
 import { ProductServiceClient } from "@google-cloud/retail";
+import Link from "next/link";
 
+import { EventTracker } from "@/components/event-tracker";
 import { ProductCard } from "@/components/product-card";
 import { Separator } from "@/components/ui/separator";
-import { Product } from "@/lib/product";
+import type { Product } from "@/lib/product";
 import { protoJsonToJs } from "@/lib/proto";
 import { getRecommendations } from "@/lib/recommendations";
-import Link from "next/link";
 
 const prodClient = new ProductServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;
@@ -33,7 +34,7 @@ export default async function ProductPage({
   const product: Product = protoJsonToJs(productResponse[0] as any);
 
   return (
-    <main className="container mx-auto px-8 py-4">
+    <main className="container mx-auto p-8">
       <div className="flex items-center space-x-4 mb-8">
         {product.images?.[0]?.uri && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -130,6 +131,12 @@ export default async function ProductPage({
           ))}
         </div>
       </section>
+
+      <EventTracker
+        eventType="detail-page-view"
+        visitorId={visitorId}
+        productId={productId}
+      />
     </main>
   );
 }

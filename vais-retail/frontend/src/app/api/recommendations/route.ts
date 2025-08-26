@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
   const modelType = searchParams.get("modelType");
   const productId = searchParams.get("productId");
   const visitorId = searchParams.get("visitorId");
+  const pageSize = searchParams.get("pageSize");
 
   if (!modelType || !visitorId) {
     return NextResponse.json(
@@ -30,7 +31,8 @@ export async function GET(request: NextRequest) {
     const results = await getRecommendations(
       modelType,
       productId ?? "",
-      visitorId
+      visitorId,
+      { pageSize: pageSize ? parseInt(pageSize) : undefined }
     );
     return NextResponse.json({ results });
   } catch (error) {

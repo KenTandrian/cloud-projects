@@ -52,13 +52,13 @@ export default function Dashboard() {
         const [rfyResponse, recentlyViewedResponse, buyItAgainResponse] =
           await Promise.all([
             fetch(
-              `/api/recommendations?modelType=rec_for_you&visitorId=${selectedVisitorId}`
+              `/api/recommendations?modelType=rec_for_you&visitorId=${selectedVisitorId}&pageSize=10`
             ),
             fetch(
-              `/api/recommendations?modelType=recently_viewed&visitorId=${selectedVisitorId}`
+              `/api/recommendations?modelType=recently_viewed&visitorId=${selectedVisitorId}&pageSize=10`
             ),
             fetch(
-              `/api/recommendations?modelType=buy_it_again&visitorId=${selectedVisitorId}`
+              `/api/recommendations?modelType=buy_it_again&visitorId=${selectedVisitorId}&pageSize=10`
             ),
           ]);
 
@@ -83,7 +83,7 @@ export default function Dashboard() {
   }, [selectedVisitorId]);
 
   return (
-    <main className="container mx-auto px-8 py-4">
+    <main className="container mx-auto p-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <h1 className="text-3xl font-bold mb-4 md:mb-0">
           Personalized Dashboard
