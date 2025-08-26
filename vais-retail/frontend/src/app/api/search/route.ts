@@ -7,6 +7,7 @@ const projectId = process.env.GCLOUD_PROJECT;
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query");
+  const visitorId = searchParams.get("visitorId");
 
   if (!query) {
     return NextResponse.json(
@@ -26,7 +27,7 @@ export async function GET(request: NextRequest) {
         queryExpansionSpec: {
           condition: "AUTO",
         },
-        visitorId: "visitor-value-1-1",
+        visitorId,
       },
       {
         autoPaginate: false,

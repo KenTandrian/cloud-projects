@@ -1,15 +1,15 @@
 import type { NavItem } from "@/types/nav";
-import { Home, LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Search } from "lucide-react";
 
 export const NAV_DATA: NavItem[] = [
   {
-    title: "Home",
+    title: "Dashboard",
     url: "/",
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard,
+    title: "Search",
+    url: "/search",
+    icon: Search,
   },
 ];
