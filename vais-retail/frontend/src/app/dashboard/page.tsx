@@ -37,6 +37,9 @@ export default function Dashboard() {
   const [recentlyViewedRecs, setRecentlyViewedRecs] = useState<
     IRecommendationResult[]
   >([]);
+  const [buyItAgainRecs, setBuyItAgainRecs] = useState<IRecommendationResult[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,24 +49,31 @@ export default function Dashboard() {
       setLoading(true);
       try {
         // Fetch both sets of recommendations in parallel for efficiency
-        const [rfyResponse, recentlyViewedResponse] = await Promise.all([
-          fetch(
-            `/api/recommendations?modelType=rfy&visitorId=${selectedVisitorId}`
-          ),
-          fetch(
-            `/api/recommendations?modelType=rv&visitorId=${selectedVisitorId}`
-          ),
-        ]);
+        const [rfyResponse, recentlyViewedResponse, buyItAgainResponse] =
+          await Promise.all([
+            fetch(
+              `/api/recommendations?modelType=rec_for_you&visitorId=${selectedVisitorId}`
+            ),
+            fetch(
+              `/api/recommendations?modelType=recently_viewed&visitorId=${selectedVisitorId}`
+            ),
+            fetch(
+              `/api/recommendations?modelType=buy_it_again&visitorId=${selectedVisitorId}`
+            ),
+          ]);
 
         const rfyData = await rfyResponse.json();
         const recentlyViewedData = await recentlyViewedResponse.json();
+        const buyItAgainData = await buyItAgainResponse.json();
 
         setRfyRecs(rfyData.results || []);
         setRecentlyViewedRecs(recentlyViewedData.results || []);
+        setBuyItAgainRecs(buyItAgainData.results || []);
       } catch (error) {
         console.error("Failed to fetch recommendations:", error);
         setRfyRecs([]);
         setRecentlyViewedRecs([]);
+        setBuyItAgainRecs([]);
       } finally {
         setLoading(false);
       }
@@ -121,6 +131,33 @@ export default function Dashboard() {
             ))
           ) : (
             <p>No recent activity found.</p>
+          )}
+        </div>
+      </section>
+
+      <Separator />
+
+      <section className="my-12">
+        <h2 className="text-2xl font-semibold mb-2">
+          Your Frequent Investments
+        </h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          Encourage recurring investments based on the client&apos;s purchase
+          history.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {loading ? (
+            Array.from({ length: 20 }).map((x, i) => (
+              <Skeleton className="h-42 w-full" key={i} />
+            ))
+          ) : buyItAgainRecs.length > 0 ? (
+            buyItAgainRecs.map((rec) => (
+              <Link href={`/product/${rec.id}`} key={rec.id}>
+                <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+              </Link>
+            ))
+          ) : (
+            <p>No purchase history found for this profile.</p>
           )}
         </div>
       </section>

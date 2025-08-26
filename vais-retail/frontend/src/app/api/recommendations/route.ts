@@ -4,11 +4,38 @@ import { NextRequest, NextResponse } from "next/server";
 const client = new PredictionServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;
 
-const modelMap: Record<string, string> = {
-  fbt: "fbt0",
-  oyml: "oyml",
-  rfy: "rfy2",
-  rv: "recently_viewed_default",
+type ModelConfig = {
+  active: boolean;
+  eventType: "home-page-view" | "detail-page-view";
+  servingConfigId: string;
+};
+
+const modelMap: Record<string, ModelConfig> = {
+  fbt: {
+    active: false,
+    eventType: "detail-page-view",
+    servingConfigId: "fbt0",
+  },
+  oyml: {
+    active: false,
+    eventType: "detail-page-view",
+    servingConfigId: "oyml",
+  },
+  rec_for_you: {
+    active: false,
+    eventType: "home-page-view",
+    servingConfigId: "rfy2",
+  },
+  recently_viewed: {
+    active: true,
+    eventType: "home-page-view",
+    servingConfigId: "recently_viewed_default",
+  },
+  buy_it_again: {
+    active: true,
+    eventType: "home-page-view",
+    servingConfigId: "buy-it-again",
+  },
 };
 
 export async function GET(request: NextRequest) {
@@ -24,8 +51,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const modelConfig = modelMap[modelType];
+
   // The Serving Config ID must match the modelType
-  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${modelMap[modelType]}`;
+  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${modelConfig.servingConfigId}`;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userEvent: any = {
@@ -33,10 +62,8 @@ export async function GET(request: NextRequest) {
   };
 
   // Set the correct eventType based on the model
-  if (modelType === "rfy" || modelType === "rv") {
-    userEvent.eventType = "home-page-view";
-  } else {
-    userEvent.eventType = "detail-page-view";
+  userEvent.eventType = modelConfig.eventType;
+  if (modelConfig.eventType === "detail-page-view") {
     if (!productId) {
       return NextResponse.json(
         { error: "productId is required for this modelType" },
@@ -53,7 +80,7 @@ export async function GET(request: NextRequest) {
       params: {
         returnProduct: { boolValue: true },
       },
-      validateOnly: modelType !== "rv",
+      validateOnly: !modelConfig.active,
     });
     return NextResponse.json(response);
   } catch (error) {
