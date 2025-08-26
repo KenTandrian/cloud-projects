@@ -17,12 +17,12 @@ export const modelMap: Record<string, ModelConfig> = {
     servingConfigId: "buy-it-again",
   },
   fbt: {
-    active: false,
+    active: true,
     eventType: "detail-page-view",
     servingConfigId: "fbt0",
   },
   oyml: {
-    active: false,
+    active: true,
     eventType: "detail-page-view",
     servingConfigId: "oyml",
   },
