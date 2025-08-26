@@ -4,17 +4,45 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
-import random
+from urllib.parse import urlparse
+
+def get_logo_url(website_url: str) -> str | None:
+    """
+    Constructs a Clearbit logo URL from a company website and verifies it exists.
+    """
+    if not website_url:
+        return None
+    
+    try:
+        # Extract the domain (e.g., "apple.com") from "https://www.apple.com"
+        domain = urlparse(website_url).netloc
+        if domain.startswith('www.'):
+            domain = domain[4:]
+        
+        if not domain:
+            return None
+            
+        logo_url = f"https://logo.clearbit.com/{domain}"
+        
+        # Check if the logo actually exists to avoid broken links
+        response = requests.head(logo_url, timeout=5)
+        if response.status_code == 200:
+            return logo_url
+        else:
+            return None
+    except requests.RequestException:
+        return None
 
 def get_sp500_tickers():
-    """Scrapes S&P 500 tickers from Wikipedia."""
+    """Scrapes all S&P 500 tickers from Wikipedia."""
     url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     table = soup.find('table', {'id': 'constituents'})
     tickers = []
     for row in table.find_all('tr')[1:]:
-        ticker = row.find('td').text.strip()
+        # Replace '.' with '-' for tickers like 'BRK.B' -> 'BRK-B'
+        ticker = row.find('td').text.strip().replace('.', '-')
         tickers.append(ticker)
     return tickers
 
@@ -24,20 +52,22 @@ def get_stock_data(ticker):
         stock = yf.Ticker(ticker)
         info = stock.info
 
-        # Skip if essential data is missing
         if 'longName' not in info or 'regularMarketPrice' not in info or info['regularMarketPrice'] is None:
             return None
 
-        # Prepare categories and tags
+        logo_image_url = get_logo_url(info.get('website'))
+        images = []
+        if logo_image_url:
+            images.append({"uri": logo_image_url})
+
         categories = ["S&P 500"]
         if info.get('sector'):
             categories.append(info['sector'])
         if info.get('industry'):
             categories.append(info['industry'])
 
-        tags = list(set(categories)) # Basic tags from categories
+        tags = list(set(categories))
         if info.get('quoteType') == 'EQUITY':
-             # Add tags based on financial metrics
             if info.get('trailingPE', 0) > 0 and info.get('trailingPE', 0) < 20:
                 tags.append("value")
             if info.get('marketCap', 0) > 200000000000:
@@ -45,8 +75,6 @@ def get_stock_data(ticker):
             if info.get('forwardEps', 0) > info.get('trailingEps', 0) and info.get('trailingEps', 0) > 0:
                  tags.append("growth")
 
-
-        # Build the attributes list
         attributes = []
         if info.get('marketCap'):
             attributes.append({'key': 'marketCap', 'value': {'numbers': [info['marketCap']]}})
@@ -56,7 +84,6 @@ def get_stock_data(ticker):
             attributes.append({'key': 'dividendYield', 'value': {'numbers': [info['dividendYield']]}})
         if info.get('recommendationKey'):
              attributes.append({'key': 'analystRating', 'value': {'text': [info['recommendationKey']]}})
-
 
         product_data = {
             'id': ticker,
@@ -71,8 +98,9 @@ def get_stock_data(ticker):
             },
             'availability': 'IN_STOCK',
             'uri': f"https://finance.yahoo.com/quote/{ticker}",
-            'tags': list(set(tags)), # Ensure unique tags
-            'attributes': attributes
+            'images': images,
+            'tags': list(set(tags)),
+            'attributes': attributes,
         }
         return product_data
     except Exception as e:
@@ -81,34 +109,20 @@ def get_stock_data(ticker):
 
 def main():
     """Main function to generate the products.json file."""
-    print("Fetching S&P 500 tickers...")
-    tickers = get_sp500_tickers()
+    print("Fetching all S&P 500 tickers...")
+    tickers_to_fetch = get_sp500_tickers()
     
-    # We'll aim for at least 300, let's take a sample in case some fail
-    if len(tickers) > 350:
-        tickers_to_fetch = random.sample(tickers, 350)
-    else:
-        tickers_to_fetch = tickers
-
-    print(f"Fetching financial data for {len(tickers_to_fetch)} stocks. This may take a few minutes...")
+    print(f"Fetching financial data for up to {len(tickers_to_fetch)} stocks. This will take several minutes...")
     
     all_products = []
-    # Using tqdm for a progress bar
     for ticker in tqdm(tickers_to_fetch, desc="Processing stocks"):
         data = get_stock_data(ticker)
         if data:
             all_products.append(data)
-        if len(all_products) >= 300:
-            break
-            
-    if len(all_products) < 300:
-        print(f"Warning: Only managed to generate data for {len(all_products)} stocks.")
-    else:
-        print(f"Successfully generated data for {len(all_products)} stocks.")
+    
+    print(f"\nSuccessfully generated data for {len(all_products)} stocks.")
 
-    # Save to file with each JSON object on a new line
     print("Saving data to products.json...")
-
     with open('products.json', 'w') as f:
         for product in all_products:
             f.write(json.dumps(product) + '\n')
