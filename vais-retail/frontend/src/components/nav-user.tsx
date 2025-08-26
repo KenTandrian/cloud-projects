@@ -15,18 +15,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useVisitorIdContext } from "./visitor-id-provider";
+import { useVisitorIdContext } from "@/components/visitor-id-provider";
 
 const VISITOR_PROFILES = [
-  { id: "visitor-value-1-6", label: "Conservative Value Investor 1" },
-  { id: "visitor-value-75-20", label: "Conservative Value Investor 2" },
-  { id: "visitor-value-25-6", label: "Conservative Value Investor 3" },
-  { id: "visitor-tech-2-5", label: "Tech-Savvy Investor 1" },
-  { id: "visitor-tech-59-0", label: "Tech-Savvy Investor 2" },
-  { id: "visitor-tech-37-48", label: "Tech-Savvy Investor 3" },
-  { id: "visitor-hedger-3-10", label: "Strategic Hedger 1" },
-  { id: "visitor-hedger-38-47", label: "Strategic Hedger 2" },
-  { id: "visitor-hedger-0-37", label: "Strategic Hedger 3" },
+  { id: "investor-value-15", label: "Conservative (Value) Investor 1" },
+  { id: "investor-value-126", label: "Conservative (Value) Investor 2" },
+  { id: "investor-tech-72", label: "Tech Focused Investor 1" },
+  { id: "investor-tech-160", label: "Tech Focused Investor 2" },
+  { id: "investor-hedger-236", label: "Strategic Hedger 1" },
+  { id: "investor-hedger-154", label: "Strategic Hedger 2" },
+  { id: "investor-dca-59", label: "Dollar-Cost Averager (ETF) 1" },
+  { id: "investor-dca-220", label: "Dollar-Cost Averager (ETF) 2" },
 ];
 
 export function NavUser() {
