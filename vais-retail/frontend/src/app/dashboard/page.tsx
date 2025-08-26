@@ -83,7 +83,7 @@ export default function Dashboard() {
   }, [selectedVisitorId]);
 
   return (
-    <main className="container mx-auto p-4">
+    <main className="container mx-auto px-8 py-4">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <h1 className="text-3xl font-bold mb-4 md:mb-0">
           Personalized Dashboard
@@ -111,10 +111,29 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-2">
-          Your Recently Viewed Stocks
-        </h2>
+      <section className="my-12">
+        <h2 className="text-2xl font-semibold mb-2">Recommended For You</h2>
+        <RecommendationHeader visitorId={selectedVisitorId} />
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {loading ? (
+            Array.from({ length: 20 }).map((x, i) => (
+              <Skeleton className="h-42 w-full" key={i} />
+            ))
+          ) : rfyRecs.length > 0 ? (
+            rfyRecs.map((rec) => (
+              <Link href={`/product/${rec.id}`} key={rec.id}>
+                <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+              </Link>
+            ))
+          ) : (
+            <p>No recommendations found for this profile.</p>
+          )}
+        </div>
+      </section>
+
+      <Separator />
+      <section className="my-12">
+        <h2 className="text-2xl font-semibold mb-2">Recently Viewed</h2>
         <p className="text-sm text-muted-foreground mb-4">
           A simple recap of your recent activity.
         </p>
@@ -136,11 +155,8 @@ export default function Dashboard() {
       </section>
 
       <Separator />
-
-      <section className="my-12">
-        <h2 className="text-2xl font-semibold mb-2">
-          Your Frequent Investments
-        </h2>
+      <section className="mt-12">
+        <h2 className="text-2xl font-semibold mb-2">Buy It Again!</h2>
         <p className="text-sm text-muted-foreground mb-4">
           Encourage recurring investments based on the client&apos;s purchase
           history.
@@ -158,28 +174,6 @@ export default function Dashboard() {
             ))
           ) : (
             <p>No purchase history found for this profile.</p>
-          )}
-        </div>
-      </section>
-
-      <Separator />
-
-      <section className="mt-8">
-        <h2 className="text-2xl font-semibold mb-2">Recommended For You</h2>
-        <RecommendationHeader visitorId={selectedVisitorId} />
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {loading ? (
-            Array.from({ length: 20 }).map((x, i) => (
-              <Skeleton className="h-42 w-full" key={i} />
-            ))
-          ) : rfyRecs.length > 0 ? (
-            rfyRecs.map((rec) => (
-              <Link href={`/product/${rec.id}`} key={rec.id}>
-                <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
-              </Link>
-            ))
-          ) : (
-            <p>No recommendations found for this profile.</p>
           )}
         </div>
       </section>

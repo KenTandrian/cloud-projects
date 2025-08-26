@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto p-4">
+    <main className="container mx-auto px-8 py-4">
       <h1 className="text-3xl font-bold mb-4">FyberInvest Search</h1>
       <div className="flex w-full max-w-sm items-center space-x-2 mb-8">
         <Input

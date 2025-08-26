@@ -1,54 +1,39 @@
-import {
-  PredictionServiceClient,
-  ProductServiceClient,
-} from "@google-cloud/retail";
+import { ProductServiceClient } from "@google-cloud/retail";
 
 import { ProductCard } from "@/components/product-card";
 import { Separator } from "@/components/ui/separator";
+import { Product } from "@/lib/product";
 import { protoJsonToJs } from "@/lib/proto";
+import { getRecommendations } from "@/lib/recommendations";
+import Link from "next/link";
 
-const predClient = new PredictionServiceClient();
 const prodClient = new ProductServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;
-
-async function getRecommendations(
-  modelType: "oyml" | "fbt0",
-  productId: string
-) {
-  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${modelType}`;
-  const [response] = await predClient.predict({
-    placement,
-    userEvent: {
-      eventType: "detail-page-view",
-      visitorId: "demo-visitor-id",
-      productDetails: [{ product: { id: productId } }],
-    },
-    params: {
-      returnProduct: { boolValue: true },
-    },
-    validateOnly: true,
-  });
-  return response.results ?? [];
-}
 
 // Main page component
 export default async function ProductPage({
   params,
 }: PageProps<"/product/[id]">) {
   const productId = (await params).id;
+  const visitorId = "visitor-tech-2-5";
   const productName = `projects/${projectId}/locations/global/catalogs/default_catalog/branches/default_branch/products/${productId}`;
 
   // Fetch the main product, OYML, and FBT recommendations in parallel
-  const [productResponse, oymlRecs, fbtRecs] = await Promise.all([
-    prodClient.getProduct({ name: productName }),
-    getRecommendations("oyml", productId),
-    getRecommendations("fbt0", productId),
-  ]);
+  const [productResponse, oymlRecs, fbtRecs, similarItemsRecs] =
+    await Promise.all([
+      prodClient.getProduct({ name: productName }),
+      getRecommendations("oyml", productId, visitorId, { pageSize: 5 }),
+      getRecommendations("fbt", productId, visitorId, { pageSize: 5 }),
+      getRecommendations("similar_items", productId, visitorId, {
+        pageSize: 5,
+      }),
+    ]);
 
-  const product = productResponse[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const product: Product = protoJsonToJs(productResponse[0] as any);
 
   return (
-    <main className="container mx-auto p-4">
+    <main className="container mx-auto px-8 py-4">
       <div className="flex items-center space-x-4 mb-8">
         {product.images?.[0]?.uri && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -71,29 +56,77 @@ export default async function ProductPage({
       <Separator className="my-8" />
 
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Others You May Like</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {oymlRecs.map((rec) => (
-            <ProductCard
-              key={rec.id}
-              product={protoJsonToJs(rec.metadata?.product)}
-            />
-          ))}
+        <h2 className="text-2xl font-semibold mb-4">Description</h2>
+        <p>{product.description}</p>
+      </section>
+
+      <Separator className="my-8" />
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Details</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {product.attributes &&
+            Object.entries(product.attributes).map(([key, value]) => (
+              <div key={key}>
+                <h3 className="font-semibold">{key}</h3>
+                <p>{value.text?.join(", ") || value.numbers?.[0]}</p>
+              </div>
+            ))}
         </div>
       </section>
 
       <Separator className="my-8" />
 
       <section>
+        <h2 className="text-2xl font-semibold mb-4">Tags</h2>
+        <div className="flex flex-wrap gap-2">
+          {product.tags?.map((tag) => (
+            <div
+              key={tag}
+              className="bg-gray-200 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Separator className="my-8" />
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">
+          Similar Investments (Peers & Competitors)
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {similarItemsRecs.map((rec) => (
+            <Link href={`/product/${rec.id}`} key={rec.id}>
+              <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <Separator className="my-8" />
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Others You May Like</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {oymlRecs.map((rec) => (
+            <Link href={`/product/${rec.id}`} key={rec.id}>
+              <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <Separator className="my-8" />
+      <section>
         <h2 className="text-2xl font-semibold mb-4">
           Frequently Bought Together
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {fbtRecs.map((rec) => (
-            <ProductCard
-              key={rec.id}
-              product={protoJsonToJs(rec.metadata?.product)}
-            />
+            <Link href={`/product/${rec.id}`} key={rec.id}>
+              <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
+            </Link>
           ))}
         </div>
       </section>
