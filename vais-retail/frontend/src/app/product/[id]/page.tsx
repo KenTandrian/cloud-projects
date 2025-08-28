@@ -102,8 +102,11 @@ export default async function ProductPage({
           Similar Investments (Peers & Competitors)
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {similarItemsRecs.map((rec) => (
-            <Link href={`/product/${rec.id}`} key={rec.id}>
+          {similarItemsRecs.results?.map((rec) => (
+            <Link
+              href={`/product/${rec.id}?attributionToken=${similarItemsRecs.attributionToken}`}
+              key={rec.id}
+            >
               <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
             </Link>
           ))}
@@ -114,8 +117,11 @@ export default async function ProductPage({
       <section>
         <h2 className="text-2xl font-semibold mb-4">Others You May Like</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {oymlRecs.map((rec) => (
-            <Link href={`/product/${rec.id}`} key={rec.id}>
+          {oymlRecs.results?.map((rec) => (
+            <Link
+              href={`/product/${rec.id}?attributionToken=${oymlRecs.attributionToken}`}
+              key={rec.id}
+            >
               <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
             </Link>
           ))}
@@ -128,8 +134,11 @@ export default async function ProductPage({
           Frequently Bought Together
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {fbtRecs.map((rec) => (
-            <Link href={`/product/${rec.id}`} key={rec.id}>
+          {fbtRecs.results?.map((rec) => (
+            <Link
+              href={`/product/${rec.id}?attributionToken=${fbtRecs.attributionToken}`}
+              key={rec.id}
+            >
               <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
             </Link>
           ))}

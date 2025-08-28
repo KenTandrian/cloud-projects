@@ -8,7 +8,8 @@ const parent = `projects/${projectId}/locations/global/catalogs/default_catalog`
 
 export async function POST(request: NextRequest) {
   try {
-    const { eventType, visitorId, productId } = await request.json();
+    const { attributionToken, eventType, visitorId, productId } =
+      await request.json();
 
     if (!eventType || !visitorId || !productId) {
       return NextResponse.json(
@@ -30,6 +31,10 @@ export async function POST(request: NextRequest) {
         },
       ],
     };
+
+    if (attributionToken) {
+      userEvent.attributionToken = attributionToken;
+    }
 
     // Write the event to the Retail API
     await client.writeUserEvent({

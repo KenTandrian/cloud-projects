@@ -55,8 +55,7 @@ export async function getRecommendations(
   const modelConfig = modelMap[modelType];
   const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${modelConfig.servingConfigId}`;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const userEvent: any = {
+  const userEvent: google.cloud.retail.v2beta.IUserEvent = {
     visitorId: visitorId,
     eventType: modelConfig.eventType,
   };
@@ -74,5 +73,5 @@ export async function getRecommendations(
     },
     validateOnly: !modelConfig.active,
   });
-  return response.results ?? [];
+  return response;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 interface EventTrackerProps {
@@ -9,6 +10,9 @@ interface EventTrackerProps {
 }
 
 export function EventTracker(props: EventTrackerProps) {
+  const searchParams = useSearchParams();
+  const attributionToken = searchParams.get("attributionToken");
+
   useEffect(() => {
     async function trackEvent() {
       try {
@@ -17,7 +21,10 @@ export function EventTracker(props: EventTrackerProps) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(props),
+          body: JSON.stringify({
+            ...props,
+            attributionToken: attributionToken || undefined,
+          }),
           keepalive: true,
         });
       } catch (error) {

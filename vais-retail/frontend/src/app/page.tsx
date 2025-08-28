@@ -9,17 +9,26 @@ import { RecommendationHeader } from "@/components/reco-header";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { protoJsonToJs } from "@/lib/proto";
-import { IRecommendationResult } from "@/lib/types";
+import type { IPredictResponse, IRecommendationResult } from "@/lib/types";
+
+interface RecommendationResponse {
+  results: IRecommendationResult[];
+  attributionToken?: string;
+}
+
+const initialRecsData = {
+  results: [],
+  attributionToken: "",
+};
 
 export default function Dashboard() {
   const { visitorId: selectedVisitorId } = useVisitorIdContext();
-  const [rfyRecs, setRfyRecs] = useState<IRecommendationResult[]>([]);
-  const [recentlyViewedRecs, setRecentlyViewedRecs] = useState<
-    IRecommendationResult[]
-  >([]);
-  const [buyItAgainRecs, setBuyItAgainRecs] = useState<IRecommendationResult[]>(
-    []
-  );
+  const [rfyRecs, setRfyRecs] =
+    useState<RecommendationResponse>(initialRecsData);
+  const [recentlyViewedRecs, setRecentlyViewedRecs] =
+    useState<RecommendationResponse>(initialRecsData);
+  const [buyItAgainRecs, setBuyItAgainRecs] =
+    useState<RecommendationResponse>(initialRecsData);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,18 +51,29 @@ export default function Dashboard() {
             ),
           ]);
 
-        const rfyData = await rfyResponse.json();
-        const recentlyViewedData = await recentlyViewedResponse.json();
-        const buyItAgainData = await buyItAgainResponse.json();
+        const rfyData: IPredictResponse = await rfyResponse.json();
+        const recentlyViewedData: IPredictResponse =
+          await recentlyViewedResponse.json();
+        const buyItAgainData: IPredictResponse =
+          await buyItAgainResponse.json();
 
-        setRfyRecs(rfyData.results || []);
-        setRecentlyViewedRecs(recentlyViewedData.results || []);
-        setBuyItAgainRecs(buyItAgainData.results || []);
+        setRfyRecs({
+          attributionToken: rfyData.attributionToken ?? undefined,
+          results: rfyData.results || [],
+        });
+        setRecentlyViewedRecs({
+          attributionToken: recentlyViewedData.attributionToken ?? undefined,
+          results: recentlyViewedData.results || [],
+        });
+        setBuyItAgainRecs({
+          attributionToken: buyItAgainData.attributionToken ?? undefined,
+          results: buyItAgainData.results || [],
+        });
       } catch (error) {
         console.error("Failed to fetch recommendations:", error);
-        setRfyRecs([]);
-        setRecentlyViewedRecs([]);
-        setBuyItAgainRecs([]);
+        setRfyRecs(initialRecsData);
+        setRecentlyViewedRecs(initialRecsData);
+        setBuyItAgainRecs(initialRecsData);
       } finally {
         setLoading(false);
       }
@@ -78,9 +98,12 @@ export default function Dashboard() {
             Array.from({ length: 20 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
-          ) : rfyRecs.length > 0 ? (
-            rfyRecs.map((rec) => (
-              <Link href={`/product/${rec.id}`} key={rec.id}>
+          ) : rfyRecs.results.length > 0 ? (
+            rfyRecs.results.map((rec) => (
+              <Link
+                href={`/product/${rec.id}?attributionToken=${rfyRecs.attributionToken}`}
+                key={rec.id}
+              >
                 <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
               </Link>
             ))
@@ -101,9 +124,12 @@ export default function Dashboard() {
             Array.from({ length: 20 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
-          ) : recentlyViewedRecs.length > 0 ? (
-            recentlyViewedRecs.map((rec) => (
-              <Link href={`/product/${rec.id}`} key={rec.id}>
+          ) : recentlyViewedRecs.results.length > 0 ? (
+            recentlyViewedRecs.results.map((rec) => (
+              <Link
+                href={`/product/${rec.id}?attributionToken=${recentlyViewedRecs.attributionToken}`}
+                key={rec.id}
+              >
                 <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
               </Link>
             ))
@@ -125,9 +151,12 @@ export default function Dashboard() {
             Array.from({ length: 20 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
-          ) : buyItAgainRecs.length > 0 ? (
-            buyItAgainRecs.map((rec) => (
-              <Link href={`/product/${rec.id}`} key={rec.id}>
+          ) : buyItAgainRecs.results.length > 0 ? (
+            buyItAgainRecs.results.map((rec) => (
+              <Link
+                href={`/product/${rec.id}?attributionToken=${buyItAgainRecs.attributionToken}`}
+                key={rec.id}
+              >
                 <ProductCard product={protoJsonToJs(rec.metadata?.product)} />
               </Link>
             ))

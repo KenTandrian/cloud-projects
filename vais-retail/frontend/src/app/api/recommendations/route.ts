@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       visitorId,
       { pageSize: pageSize ? parseInt(pageSize) : undefined }
     );
-    return NextResponse.json({ results });
+    return NextResponse.json(results);
   } catch (error) {
     console.error(`Prediction API Error for ${modelType}:`, error);
     return NextResponse.json(
