@@ -1,16 +1,15 @@
 import google.auth
+import os
+from decouple import config
 from google.cloud import retail_v2
 from google.cloud import storage
-import os
 
-# --- PLEASE UPDATE THESE VARIABLES ---
 # Your Google Cloud project ID (will be auto-detected if not set)
 PROJECT_ID = google.auth.default()[1]
 # The name of the GCS bucket you created.
-BUCKET_NAME = "your-unique-bucket-name" 
+BUCKET_NAME = config("BUCKET_NAME", default="your-unique-bucket-name")
 # The local file you want to upload and import.
 LOCAL_FILE_PATH = "user_events.json"
-# -----------------------------------
 
 def upload_to_gcs(bucket_name: str, source_file_path: str, destination_blob_name: str):
     """Uploads a file to the specified GCS bucket."""

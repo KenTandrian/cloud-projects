@@ -1,9 +1,10 @@
-# Generator
+# Scripts
 beautifulsoup4==4.13.4
 pandas==2.3.2
 requests==2.32.5
 tqdm==4.67.1
 yfinance==0.2.65
+python-decouple==3.8
 
 # Search
 google==3.0.0
