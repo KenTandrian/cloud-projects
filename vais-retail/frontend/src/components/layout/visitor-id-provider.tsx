@@ -1,11 +1,13 @@
 "use client";
 
+import { VISITOR_PROFILES } from "@/config/visitor";
 import { useVisitorId } from "@/hooks/use-visitor-id";
 import {
   type Dispatch,
   type SetStateAction,
   createContext,
   useContext,
+  useEffect,
 } from "react";
 
 type VisitorIdContextType = {
@@ -19,6 +21,11 @@ export const VisitorIdContext = createContext<VisitorIdContextType | null>(
 
 export function VisitorIdProvider({ children }: { children: React.ReactNode }) {
   const [visitorId, setVisitorId] = useVisitorId();
+
+  useEffect(() => {
+    if (!visitorId) setVisitorId(VISITOR_PROFILES[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <VisitorIdContext.Provider value={{ visitorId, setVisitorId }}>

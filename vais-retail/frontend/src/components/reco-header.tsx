@@ -11,6 +11,11 @@ interface ProfileExplanation {
 
 // Map visitor IDs to specific explanations for the demo narrative
 const EXPLANATIONS: Record<string, ProfileExplanation> = {
+  general: {
+    title: "General Profile",
+    description:
+      "Displaying personalized recommendations based on this client's activity.",
+  },
   value: {
     title: "Profile: Conservative Value Investor",
     description:
@@ -30,12 +35,8 @@ const EXPLANATIONS: Record<string, ProfileExplanation> = {
 
 export function RecommendationHeader() {
   const { visitorId } = useVisitorIdContext();
-  const persona = visitorId.split("-")[1];
-  const explanation = EXPLANATIONS[persona] || {
-    title: "General Profile",
-    description:
-      "Displaying personalized recommendations based on this client's activity.",
-  };
+  const persona = visitorId?.split("-")[1];
+  const explanation = EXPLANATIONS[persona ?? "general"];
 
   return (
     <Alert className="mb-8">
