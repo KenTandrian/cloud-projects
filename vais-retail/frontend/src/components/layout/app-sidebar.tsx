@@ -1,5 +1,3 @@
-"use client";
-
 import { DollarSign } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -15,9 +13,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NAV_DATA } from "@/config/nav";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const appName = process.env.APP_NAME ?? "Google Cloud";
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -29,7 +27,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <DollarSign className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">FyberInvest</span>
+                  <span className="truncate font-medium">{appName}</span>
                   <span className="truncate text-xs">Retail Search Demo</span>
                 </div>
               </Link>
@@ -38,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={NAV_DATA} />
+        <NavMain />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

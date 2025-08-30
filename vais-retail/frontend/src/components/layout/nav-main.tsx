@@ -20,12 +20,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { NAV_DATA } from "@/config/nav";
 import type { NavItem } from "@/types/nav";
 
-export function NavMain({ items }: { items: NavItem[] }) {
+export function NavMain() {
   const pathname = usePathname();
 
-  const menus: NavItem[] = items.map((item) => ({
+  const menus: NavItem[] = NAV_DATA.map((item) => ({
     ...item,
     isActive: pathname === item.url,
   }));
