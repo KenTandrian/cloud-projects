@@ -7,10 +7,11 @@ import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ISearchResult } from "@/lib/types";
+import { trpc } from "@/lib/trpc/client";
+import type { ISearchResult } from "@/lib/types";
 
 export default function Home() {
-  const { visitorId: selectedVisitorId } = useVisitorIdContext();
+  const { visitorId } = useVisitorIdContext();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ISearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,14 +19,18 @@ export default function Home() {
   async function handleSearch() {
     if (!query) return;
     setLoading(true);
-    const response = await fetch(
-      `/api/search?query=${encodeURIComponent(
-        query
-      )}&visitorId=${selectedVisitorId}`
-    );
-    const data: ISearchResult[] = await response.json();
-    setResults(data || []);
-    setLoading(false);
+
+    try {
+      const data = (await trpc.search.query({
+        query,
+        visitorId,
+      })) as ISearchResult[];
+      setResults(data || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

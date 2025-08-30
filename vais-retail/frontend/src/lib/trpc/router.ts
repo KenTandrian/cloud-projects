@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { getRecommendations } from "@/lib/recommendations";
+import { search } from "@/lib/search";
 import { publicProcedure, router } from "@/lib/trpc/server";
 import { eventTypesSchema } from "@/types/recommendations";
 
@@ -22,6 +23,18 @@ export const appRouter = router({
         visitorId,
         { pageSize }
       );
+      return results;
+    }),
+  search: publicProcedure
+    .input(
+      z.object({
+        query: z.string(),
+        visitorId: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { query, visitorId } = input;
+      const results = await search(query, visitorId);
       return results;
     }),
 });
