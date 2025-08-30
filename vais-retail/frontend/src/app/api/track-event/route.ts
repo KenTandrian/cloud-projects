@@ -2,9 +2,11 @@ import { UserEventServiceClient } from "@google-cloud/retail";
 import { google } from "@google-cloud/retail/build/protos/protos";
 import { type NextRequest, NextResponse } from "next/server";
 
+import { assertEnv } from "@/lib/utils";
+
 const client = new UserEventServiceClient();
-const projectId = process.env.GCLOUD_PROJECT;
-const parent = `projects/${projectId}/locations/global/catalogs/default_catalog`;
+const projectId = assertEnv("GCLOUD_PROJECT");
+const parent = client.catalogPath(projectId, "global", "default_catalog");
 
 export async function POST(request: NextRequest) {
   try {

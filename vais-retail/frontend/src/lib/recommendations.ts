@@ -4,7 +4,7 @@ import { PredictionServiceClient } from "@google-cloud/retail";
 import { google } from "@google-cloud/retail/build/protos/protos";
 
 const predClient = new PredictionServiceClient();
-const projectId = process.env.GCLOUD_PROJECT;
+const projectId = assertEnv("GCLOUD_PROJECT");
 
 export const servingConfigMap: Record<EventType, ServingConfig> = {
   buy_it_again: {
@@ -49,7 +49,12 @@ export async function getRecommendations(
   >
 ) {
   const servingConfig = servingConfigMap[modelType];
-  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${servingConfig.id}`;
+  const placement = predClient.servingConfigPath(
+    projectId,
+    "global",
+    "default_catalog",
+    servingConfig.id
+  );
 
   const userEvent: google.cloud.retail.v2beta.IUserEvent = {
     visitorId: visitorId,

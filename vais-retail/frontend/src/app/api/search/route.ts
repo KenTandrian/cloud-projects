@@ -1,8 +1,10 @@
 import { v2alpha } from "@google-cloud/retail";
 import { NextRequest, NextResponse } from "next/server";
 
+import { assertEnv } from "@/lib/utils";
+
 const client = new v2alpha.SearchServiceClient();
-const projectId = process.env.GCLOUD_PROJECT;
+const projectId = assertEnv("GCLOUD_PROJECT");
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -16,7 +18,12 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/default_search`;
+  const placement = client.servingConfigPath(
+    projectId,
+    "global",
+    "default_catalog",
+    "default_search"
+  );
 
   try {
     const [response] = await client.search(

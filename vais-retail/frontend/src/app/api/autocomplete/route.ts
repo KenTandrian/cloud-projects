@@ -1,8 +1,10 @@
 import { CompletionServiceClient } from "@google-cloud/retail";
 import { NextRequest, NextResponse } from "next/server";
 
+import { assertEnv } from "@/lib/utils";
+
 const client = new CompletionServiceClient();
-const projectId = process.env.GCLOUD_PROJECT;
+const projectId = assertEnv("GCLOUD_PROJECT");
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -15,7 +17,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const catalogId = `projects/${projectId}/locations/global/catalogs/default_catalog`;
+  const catalogId = client.catalogPath(projectId, "global", "default_catalog");
 
   try {
     const [response] = await client.completeQuery({

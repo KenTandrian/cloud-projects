@@ -8,17 +8,23 @@ import { Separator } from "@/components/ui/separator";
 import type { Product } from "@/lib/product";
 import { protoJsonToJs } from "@/lib/proto";
 import { getRecommendations } from "@/lib/recommendations";
+import { assertEnv } from "@/lib/utils";
 
 const prodClient = new ProductServiceClient();
-const projectId = process.env.GCLOUD_PROJECT;
+const projectId = assertEnv("GCLOUD_PROJECT");
 
-// Main page component
 export default async function ProductPage({
   params,
 }: PageProps<"/product/[id]">) {
   const productId = (await params).id;
   const visitorId = (await cookies()).get("visitorId")?.value ?? "";
-  const productName = `projects/${projectId}/locations/global/catalogs/default_catalog/branches/default_branch/products/${productId}`;
+  const productName = prodClient.productPath(
+    projectId,
+    "global",
+    "default_catalog",
+    "default_branch",
+    productId
+  );
 
   // Fetch the main product, OYML, and FBT recommendations in parallel
   const [productResponse, oymlRecs, fbtRecs, similarItemsRecs] =
