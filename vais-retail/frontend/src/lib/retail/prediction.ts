@@ -1,5 +1,5 @@
 import { assertEnv } from "@/lib/utils";
-import type { EventType, ServingConfig } from "@/types/recommendations";
+import type { EventType, ServingConfig } from "@/types/recommendation";
 import { PredictionServiceClient } from "@google-cloud/retail";
 import { google } from "@google-cloud/retail/build/protos/protos";
 

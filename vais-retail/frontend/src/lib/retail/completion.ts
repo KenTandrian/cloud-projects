@@ -6,11 +6,11 @@ const client = new CompletionServiceClient();
 const projectId = assertEnv("GCLOUD_PROJECT");
 const catalogId = client.catalogPath(projectId, "global", "default_catalog");
 
-export async function completeQuery(query: string) {
+export async function completeQuery(query: string, visitorId?: string) {
   const [response] = await client.completeQuery({
+    query,
+    visitorId,
     catalog: catalogId,
-    query: query,
-    visitorId: "demo-visitor-id",
     maxSuggestions: 5,
   });
 

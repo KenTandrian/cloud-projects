@@ -1,3 +1,7 @@
+/**
+ * Visitor profiles are used to simulate different types of users.
+ * The user IDs may need to be changed based on the available user data.
+ */
 export const VISITOR_PROFILES = [
   { id: "investor-value-15", label: "Conservative (Value) Investor 1" },
   { id: "investor-value-126", label: "Conservative (Value) Investor 2" },

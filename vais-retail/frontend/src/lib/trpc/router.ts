@@ -5,14 +5,19 @@ import { getRecommendations } from "@/lib/retail/prediction";
 import { search } from "@/lib/retail/search";
 import { writeUserEvent } from "@/lib/retail/user-event";
 import { publicProcedure, router } from "@/lib/trpc/server";
-import { eventTypesSchema } from "@/types/recommendations";
+import { eventTypesSchema } from "@/types/recommendation";
 
 export const appRouter = router({
   autocomplete: publicProcedure
-    .input(z.object({ query: z.string() }))
+    .input(
+      z.object({
+        query: z.string(),
+        visitorId: z.string().optional(),
+      })
+    )
     .query(async ({ input }) => {
-      const { query } = input;
-      const results = await completeQuery(query);
+      const { query, visitorId } = input;
+      const results = await completeQuery(query, visitorId);
       return results;
     }),
   recommendation: publicProcedure

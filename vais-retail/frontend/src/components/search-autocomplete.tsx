@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import {
   Command,
   CommandInput,
@@ -15,10 +16,11 @@ interface SearchAutocompleteProps {
 }
 
 export function SearchAutocomplete({ onSearch }: SearchAutocompleteProps) {
+  const { visitorId } = useVisitorIdContext();
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { data: suggestions = [], refetch } = trpc.autocomplete.useQuery(
-    { query: inputValue },
+    { query: inputValue, visitorId },
     { enabled: false }
   );
 

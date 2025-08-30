@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { protoJsonToJs } from "@/lib/proto";
 import { trpc } from "@/lib/trpc/react-query";
-import type { EventType } from "@/types/recommendations";
+import type { EventType } from "@/types/recommendation";
 
 interface ProductPanelProps {
   description?: string;
