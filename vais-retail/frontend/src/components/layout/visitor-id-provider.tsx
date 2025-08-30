@@ -2,11 +2,10 @@
 
 import { useVisitorId } from "@/hooks/use-visitor-id";
 import {
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
   createContext,
   useContext,
-  useState,
 } from "react";
 
 type VisitorIdContextType = {
@@ -20,20 +19,9 @@ export const VisitorIdContext = createContext<VisitorIdContextType | null>(
 
 export function VisitorIdProvider({ children }: { children: React.ReactNode }) {
   const [visitorId, setVisitorId] = useVisitorId();
-  const [optimisticVisitorId, setOptimisticVisitorId] = useState(visitorId);
-
-  const value = {
-    visitorId: optimisticVisitorId,
-    setVisitorId: (value: string | ((val: string) => string)) => {
-      const resolvedValue =
-        typeof value === "function" ? value(optimisticVisitorId) : value;
-      setOptimisticVisitorId(resolvedValue);
-      setVisitorId(resolvedValue);
-    },
-  };
 
   return (
-    <VisitorIdContext.Provider value={value}>
+    <VisitorIdContext.Provider value={{ visitorId, setVisitorId }}>
       {children}
     </VisitorIdContext.Provider>
   );
