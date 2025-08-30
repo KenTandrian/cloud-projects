@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import { ProductCard } from "@/components/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { protoJsonToJs } from "@/lib/proto";
@@ -13,7 +14,6 @@ interface ProductPanelProps {
   header?: React.ReactNode;
   modelType: EventType;
   title: string;
-  visitorId: string;
 }
 
 export function ProductPanel({
@@ -21,8 +21,8 @@ export function ProductPanel({
   header,
   modelType,
   title,
-  visitorId,
 }: ProductPanelProps) {
+  const { visitorId } = useVisitorIdContext();
   const { data: recs, isLoading } = trpc.recommendation.useQuery({
     modelType,
     visitorId,

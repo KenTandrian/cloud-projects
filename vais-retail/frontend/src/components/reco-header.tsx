@@ -1,5 +1,6 @@
 "use client";
 
+import { useVisitorIdContext } from "@/components/layout/visitor-id-provider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 
@@ -27,7 +28,8 @@ const EXPLANATIONS: Record<string, ProfileExplanation> = {
   },
 };
 
-export function RecommendationHeader({ visitorId }: { visitorId: string }) {
+export function RecommendationHeader() {
+  const { visitorId } = useVisitorIdContext();
   const persona = visitorId.split("-")[1];
   const explanation = EXPLANATIONS[persona] || {
     title: "General Profile",
