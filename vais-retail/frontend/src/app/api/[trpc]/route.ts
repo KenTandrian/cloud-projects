@@ -4,7 +4,7 @@ import { appRouter } from "@/lib/trpc/router";
 
 function handler(req: Request) {
   return fetchRequestHandler({
-    endpoint: "/api/trpc",
+    endpoint: "/api",
     req,
     router: appRouter,
     createContext: () => ({}),
