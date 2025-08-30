@@ -42,7 +42,9 @@ export function VisitorIdProvider({ children }: { children: React.ReactNode }) {
 export function useVisitorIdContext() {
   const context = useContext(VisitorIdContext);
   if (!context) {
-    throw new Error("useVisitorIdContext must be used within a VistorId");
+    throw new Error(
+      "useVisitorIdContext must be used within a VisitorIdProvider"
+    );
   }
   return context;
 }
