@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { getRecommendations } from "@/lib/retail/prediction";
 import { search } from "@/lib/retail/search";
+import { writeUserEvent } from "@/lib/retail/user-event";
 import { publicProcedure, router } from "@/lib/trpc/server";
 import { eventTypesSchema } from "@/types/recommendations";
 
@@ -36,6 +37,24 @@ export const appRouter = router({
       const { query, visitorId } = input;
       const results = await search(query, visitorId);
       return results;
+    }),
+  trackEvent: publicProcedure
+    .input(
+      z.object({
+        attributionToken: z.string().optional(),
+        eventType: z.string(),
+        productId: z.string(),
+        visitorId: z.string(),
+      })
+    )
+    .mutation(({ input }) => {
+      const { attributionToken, eventType, productId, visitorId } = input;
+      return writeUserEvent({
+        attributionToken,
+        eventType,
+        visitorId,
+        productDetails: [{ product: { id: productId } }],
+      });
     }),
 });
 

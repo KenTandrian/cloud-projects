@@ -3,6 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+import { trpc } from "@/lib/trpc/client";
+
 interface EventTrackerProps {
   eventType: "detail-page-view"; // Can be expanded for other events
   visitorId: string;
@@ -14,25 +16,10 @@ export function EventTracker(props: EventTrackerProps) {
   const attributionToken = searchParams.get("attributionToken");
 
   useEffect(() => {
-    async function trackEvent() {
-      try {
-        fetch("/api/track-event", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...props,
-            attributionToken: attributionToken || undefined,
-          }),
-          keepalive: true,
-        });
-      } catch (error) {
-        console.error("Failed to track event:", error);
-      }
-    }
-
-    trackEvent();
+    trpc.trackEvent.mutate({
+      ...props,
+      attributionToken: attributionToken || undefined,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
