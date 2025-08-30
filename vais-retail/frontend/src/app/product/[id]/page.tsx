@@ -24,8 +24,12 @@ export default async function ProductPage({
   const [productResponse, oymlRecs, fbtRecs, similarItemsRecs] =
     await Promise.all([
       prodClient.getProduct({ name: productName }),
-      getRecommendations("oyml", productId, visitorId, { pageSize: 5 }),
-      getRecommendations("fbt", productId, visitorId, { pageSize: 5 }),
+      getRecommendations("others_you_may_like", productId, visitorId, {
+        pageSize: 5,
+      }),
+      getRecommendations("frequently_bought_together", productId, visitorId, {
+        pageSize: 5,
+      }),
       getRecommendations("similar_items", productId, visitorId, {
         pageSize: 5,
       }),

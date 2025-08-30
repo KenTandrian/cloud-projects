@@ -1,9 +1,11 @@
-import { getRecommendations, modelMap } from "@/lib/recommendations";
 import { NextRequest, NextResponse } from "next/server";
+
+import { getRecommendations, servingConfigMap } from "@/lib/recommendations";
+import type { EventType } from "@/types/recommendations";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const modelType = searchParams.get("modelType");
+  const modelType = searchParams.get("modelType") as EventType;
   const productId = searchParams.get("productId");
   const visitorId = searchParams.get("visitorId");
   const pageSize = searchParams.get("pageSize");
@@ -15,11 +17,11 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  if (!Object.keys(modelMap).includes(modelType)) {
+  if (!Object.keys(servingConfigMap).includes(modelType)) {
     return NextResponse.json({ error: "Invalid modelType" }, { status: 400 });
   }
 
-  const modelConfig = modelMap[modelType];
+  const modelConfig = servingConfigMap[modelType];
   if (modelConfig.eventType === "detail-page-view" && !productId) {
     return NextResponse.json(
       { error: "productId is required for this modelType" },

@@ -1,50 +1,46 @@
+import { assertEnv } from "@/lib/utils";
+import type { EventType, ServingConfig } from "@/types/recommendations";
 import { PredictionServiceClient } from "@google-cloud/retail";
 import { google } from "@google-cloud/retail/build/protos/protos";
 
 const predClient = new PredictionServiceClient();
 const projectId = process.env.GCLOUD_PROJECT;
 
-type ModelConfig = {
-  active: boolean;
-  eventType: "home-page-view" | "detail-page-view";
-  servingConfigId: string;
-};
-
-export const modelMap: Record<string, ModelConfig> = {
+export const servingConfigMap: Record<EventType, ServingConfig> = {
   buy_it_again: {
     active: true,
     eventType: "home-page-view",
-    servingConfigId: "buy-it-again",
+    id: assertEnv("SERVING_CONFIG_ID_BUY_IT_AGAIN"),
   },
-  fbt: {
+  frequently_bought_together: {
     active: true,
     eventType: "detail-page-view",
-    servingConfigId: "fbt0",
+    id: assertEnv("SERVING_CONFIG_ID_FREQUENTLY_BOUGHT_TOGETHER"),
   },
-  oyml: {
+  others_you_may_like: {
     active: true,
     eventType: "detail-page-view",
-    servingConfigId: "oyml",
+    id: assertEnv("SERVING_CONFIG_ID_OTHERS_YOU_MAY_LIKE"),
   },
-  rec_for_you: {
+  recommended_for_you: {
     active: true,
     eventType: "home-page-view",
-    servingConfigId: "rfy2",
+    id: assertEnv("SERVING_CONFIG_ID_RECOMMENDED_FOR_YOU"),
   },
   recently_viewed: {
     active: true,
     eventType: "home-page-view",
-    servingConfigId: "recently_viewed_default",
+    id: assertEnv("SERVING_CONFIG_ID_RECENTLY_VIEWED"),
   },
   similar_items: {
     active: true,
     eventType: "detail-page-view",
-    servingConfigId: "similar-items-1",
+    id: assertEnv("SERVING_CONFIG_ID_SIMILAR_ITEMS"),
   },
 };
 
 export async function getRecommendations(
-  modelType: keyof typeof modelMap,
+  modelType: EventType,
   productId: string,
   visitorId: string,
   request?: Omit<
@@ -52,15 +48,15 @@ export async function getRecommendations(
     "placement" | "userEvent" | "params" | "validateOnly"
   >
 ) {
-  const modelConfig = modelMap[modelType];
-  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${modelConfig.servingConfigId}`;
+  const servingConfig = servingConfigMap[modelType];
+  const placement = `projects/${projectId}/locations/global/catalogs/default_catalog/servingConfigs/${servingConfig.id}`;
 
   const userEvent: google.cloud.retail.v2beta.IUserEvent = {
     visitorId: visitorId,
-    eventType: modelConfig.eventType,
+    eventType: servingConfig.eventType,
   };
 
-  if (modelConfig.eventType === "detail-page-view") {
+  if (servingConfig.eventType === "detail-page-view") {
     userEvent.productDetails = [{ product: { id: productId } }];
   }
 
@@ -71,7 +67,7 @@ export async function getRecommendations(
     params: {
       returnProduct: { boolValue: true },
     },
-    validateOnly: !modelConfig.active,
+    validateOnly: !servingConfig.active,
   });
   return response;
 }

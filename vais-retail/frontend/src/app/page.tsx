@@ -41,7 +41,7 @@ export default function Dashboard() {
         const [rfyResponse, recentlyViewedResponse, buyItAgainResponse] =
           await Promise.all([
             fetch(
-              `/api/recommendations?modelType=rec_for_you&visitorId=${selectedVisitorId}&pageSize=10`
+              `/api/recommendations?modelType=recommended_for_you&visitorId=${selectedVisitorId}&pageSize=10`
             ),
             fetch(
               `/api/recommendations?modelType=recently_viewed&visitorId=${selectedVisitorId}&pageSize=10`
@@ -95,7 +95,7 @@ export default function Dashboard() {
         <RecommendationHeader visitorId={selectedVisitorId} />
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {loading ? (
-            Array.from({ length: 20 }).map((x, i) => (
+            Array.from({ length: 10 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
           ) : rfyRecs.results.length > 0 ? (
@@ -121,7 +121,7 @@ export default function Dashboard() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {loading ? (
-            Array.from({ length: 20 }).map((x, i) => (
+            Array.from({ length: 10 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
           ) : recentlyViewedRecs.results.length > 0 ? (
@@ -148,7 +148,7 @@ export default function Dashboard() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {loading ? (
-            Array.from({ length: 20 }).map((x, i) => (
+            Array.from({ length: 10 }).map((x, i) => (
               <Skeleton className="h-42 w-full" key={i} />
             ))
           ) : buyItAgainRecs.results.length > 0 ? (
