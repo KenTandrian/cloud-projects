@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { getRecommendations } from "@/lib/recommendations";
-import { search } from "@/lib/search";
+import { getRecommendations } from "@/lib/retail/prediction";
+import { search } from "@/lib/retail/search";
 import { publicProcedure, router } from "@/lib/trpc/server";
 import { eventTypesSchema } from "@/types/recommendations";
 

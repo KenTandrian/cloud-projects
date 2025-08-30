@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product-card";
 import { Separator } from "@/components/ui/separator";
 import type { Product } from "@/lib/product";
 import { protoJsonToJs } from "@/lib/proto";
-import { getRecommendations } from "@/lib/recommendations";
+import { getRecommendations } from "@/lib/retail/prediction";
 import { assertEnv } from "@/lib/utils";
 
 const prodClient = new ProductServiceClient();
