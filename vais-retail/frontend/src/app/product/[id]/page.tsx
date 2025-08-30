@@ -15,7 +15,9 @@ const projectId = assertEnv("GCLOUD_PROJECT");
 
 export default async function ProductPage({
   params,
+  searchParams,
 }: PageProps<"/product/[id]">) {
+  const attributionToken = (await searchParams).attributionToken as string;
   const productId = (await params).id;
   const visitorId = (await cookies()).get("visitorId")?.value ?? "";
   const productName = prodClient.productPath(
@@ -156,6 +158,7 @@ export default async function ProductPage({
       </section>
 
       <EventTracker
+        attributionToken={attributionToken}
         eventType="detail-page-view"
         visitorId={visitorId}
         productId={productId}
