@@ -8,6 +8,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { trpc } from "@/lib/trpc/react-query";
 
 interface SearchAutocompleteProps {
   onSearch: (query: string) => void;
@@ -15,28 +16,26 @@ interface SearchAutocompleteProps {
 
 export function SearchAutocomplete({ onSearch }: SearchAutocompleteProps) {
   const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const { data: suggestions = [], refetch } = trpc.autocomplete.useQuery(
+    { query: inputValue },
+    { enabled: false }
+  );
 
   // Debounce effect to prevent API calls on every keystroke
   useEffect(() => {
     if (inputValue.length < 3) {
-      setSuggestions([]);
       setIsOpen(false);
       return;
     }
 
     const timer = setTimeout(() => {
-      fetch(`/api/autocomplete?query=${inputValue}`)
-        .then((res) => res.json())
-        .then((data: string[]) => {
-          setSuggestions(data);
-          setIsOpen(data.length > 0);
-        });
+      refetch();
+      setIsOpen(true);
     }, 300); // Wait for 300ms of no typing before fetching
 
     return () => clearTimeout(timer); // Cleanup timer on unmount or next keystroke
-  }, [inputValue]);
+  }, [inputValue, refetch]);
 
   function handleSelect(suggestion: string) {
     setInputValue(suggestion);
@@ -62,7 +61,7 @@ export function SearchAutocomplete({ onSearch }: SearchAutocompleteProps) {
           {suggestions.map((suggestion) => (
             <CommandItem
               key={suggestion}
-              onSelect={() => handleSelect(suggestion)}
+              onSelect={() => handleSelect(suggestion ?? "")}
             >
               {suggestion}
             </CommandItem>

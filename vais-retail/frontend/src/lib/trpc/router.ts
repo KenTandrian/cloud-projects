@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { completeQuery } from "@/lib/retail/completion";
 import { getRecommendations } from "@/lib/retail/prediction";
 import { search } from "@/lib/retail/search";
 import { writeUserEvent } from "@/lib/retail/user-event";
@@ -7,6 +8,13 @@ import { publicProcedure, router } from "@/lib/trpc/server";
 import { eventTypesSchema } from "@/types/recommendations";
 
 export const appRouter = router({
+  autocomplete: publicProcedure
+    .input(z.object({ query: z.string() }))
+    .query(async ({ input }) => {
+      const { query } = input;
+      const results = await completeQuery(query);
+      return results;
+    }),
   recommendation: publicProcedure
     .input(
       z.object({
@@ -48,7 +56,7 @@ export const appRouter = router({
       })
     )
     .mutation(({ input }) => {
-      const { attributionToken, eventType, productId, visitorId } = input;
+      const { attributionToken, eventType, visitorId, productId } = input;
       return writeUserEvent({
         attributionToken,
         eventType,
