@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "MCPToolbox": {
+      "httpUrl": "http://localhost:5000/mcp"
+    }
+  }
+}
