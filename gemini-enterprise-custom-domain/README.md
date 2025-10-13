@@ -1,6 +1,6 @@
-# Agentspace Custom Domain
+# Gemini Enterprise Custom Domain
 
-This directory contains Terraform code to provision the necessary Google Cloud infrastructure to front the Google Agentspace applications with a custom domain. It sets up a global external HTTPS load balancer that acts as a reverse proxy to the Google-managed backend service.
+This directory contains Terraform code to provision the necessary Google Cloud infrastructure to front the Gemini Enterprise (formerly known as Google Agentspace) applications with a custom domain. It sets up a global external HTTPS load balancer that acts as a reverse proxy to the Google-managed backend service.
 
 ## Codelab Reference
 
@@ -15,10 +15,10 @@ The Terraform configuration will create the following resources:
 - **Global Internet Network Endpoint Group (NEG)**: A backend NEG of type `INTERNET_FQDN_PORT` that points to the Google-managed service (`vertexaisearch.cloud.google.com`).
 - **HTTPS Load Balancer**: A global external HTTPS load balancer configured with:
   - A **Backend Service** that routes traffic to the Internet NEG.
-  - A **URL Map** that performs a URL rewrite. It maps the user-friendly path `/travel` to the specific backend path required by the Agentspace application, using the `app_travel_id` variable.
+  - A **URL Map** that performs a URL rewrite. It maps the user-friendly path `/travel` to the specific backend path required by the Gemini Enterprise application, using the `app_travel_id` variable.
   - A **Google-managed SSL Certificate** for the custom domain to enable HTTPS.
   - A **Target Proxy** and **Forwarding Rule** to connect the external IP address to the URL map.
-- **Cloud DNS Zone & Record**: The Terraform code assumes you have a managed DNS zone for your domain. You will need to manually create an `A` record pointing `agentspace.your-domain.com` to the load balancer's external IP address.
+- **Cloud DNS Zone & Record**: The Terraform code assumes you have a managed DNS zone for your domain. You will need to manually create an `A` record pointing `gemini-enterprise.your-domain.com` to the load balancer's external IP address.
 
 ## Usage
 
@@ -38,7 +38,7 @@ The Terraform configuration will create the following resources:
     ```hcl
     project_id    = "your-gcp-project-id"
     domain_name   = "your-custom-domain.com"
-    app_travel_id = "your-agentspace-travel-app-id"
+    app_travel_id = "your-gemini-enterprise-travel-app-id"
     ```
 
 4.  **Apply the Terraform configuration:**
@@ -49,6 +49,6 @@ The Terraform configuration will create the following resources:
 
 ## Redirect Behavior
 
-It is expected that the Agentspace custom domain will perform a `302` redirect to the Google-managed URL (`vertexaisearch.cloud.google.com`).
+It is expected that the Gemini Enterprise custom domain will perform a `302` redirect to the Google-managed URL (`vertexaisearch.cloud.google.com`).
 
 This is the intended behavior as described in the codelab. The load balancer correctly performs a server-side URL rewrite, but the backend service itself then issues a client-side redirect.

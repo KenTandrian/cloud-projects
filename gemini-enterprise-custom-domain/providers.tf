@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "your-bucket-name"
-    prefix = "agentspace-custom-domain/state"
+    prefix = "gemini-enterprise-custom-domain/state"
   }
   required_providers {
     google = {

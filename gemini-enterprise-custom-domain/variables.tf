@@ -9,6 +9,6 @@ variable "domain_name" {
 }
 
 variable "app_travel_id" {
-  description = "Agentspace app ID for Travel app"
+  description = "Gemini Enterprise app ID for Travel app"
   type        = string
 }
