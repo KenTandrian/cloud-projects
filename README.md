@@ -4,35 +4,59 @@
 
 ## Introduction
 
-This is a collection of my demo cloud projects.
+A collection of demo projects showcasing various Google Cloud Platform services and features.
 
-## List of Projects
+## Active Projects
 
-1. **Kubernetes Service Account Authentication with Workload Identity**
+### AI & Machine Learning
+
+1. **Vertex AI Search for Commerce Demo**
+
+   - Investment broker demo using Vertex AI Search features.
+   - Tools: Python, Next.js, Vertex AI Search for Commerce, Cloud Run
+
+2. **Cross-Project Service Account for Vertex AI Pipelines**
+
+   - Example of running Vertex AI Pipelines across projects
+   - Tools: Terraform, Python, Vertex AI
+
+3. **Gemini Enterprise Custom Domain**
+
+   - Infrastructure for custom domain setup with Gemini Enterprise
+   - Tools: Cloud Load Balancing, Terraform
+
+### Infrastructure & Networking
+
+4. **Kubernetes Service Account Authentication with Workload Identity**
+
    - A project to demonstrate how to authenticate GKE workloads to IAM using Kubernetes service account.
    - Tools: Google Kubernetes Engine, Docker, Go
-2. **Conway's Game of Life - Vanilla**
-   - A WebGPU project inspired by a Google Codelab [here](https://codelabs.developers.google.com/your-first-webgpu-app).
-   - Tools: HTML, JavaScript, WebGPU, Tailwind CSS, Nginx, Docker, Cloud Run
-3. **Conway's Game of Life - Vite**
-   - An updated version of the previous project.
-   - Tools: Vite, TypeScript, WebGPU, Nginx, Docker, Cloud Run
-4. **Conway's Game of Life - WebAssembly**
-   - A version of the project build with WebAssembly compiled from Rust.
-   - Tools: Rust, WebAssembly, Webpack
-5. **News GRPC API**
-   - A gRPC API project for getting and managing articles data.
-   - Tools: gRPC, TypeScript, Protobuf
-6. **Hybrid Networking using Hub-and-spoke Topology**
+
+5. **Hybrid Networking using Hub-and-spoke Topology**
+
    - Connecting on-premise infrastructure to Google Cloud with hub-and-spoke topology implementation.
-   - Tools: Terraform
+   - Tools: Cloud DNS, Cloud NAT, Cloud VPC, Terraform
 
-## Past Projects
+### Web Applications
 
-1. **Generative AI Chat App**
-   - A GenAI project inspired by Medium article [here](https://medium.com/google-cloud-indonesia/deployment-cepat-sebuah-genai-chat-app-dengan-vertexai-langchain-strimlit-11d9d32b89a0).
+6. **Conway's Game of Life Series**
+
+   - Vanilla JS Implementation with WebGPU ([Codelab](https://codelabs.developers.google.com/your-first-webgpu-app))
+   - TypeScript/Vite Implementation: GPU-accelerated grid simulation using compute shaders and typed pipelines
+   - Rust/WebAssembly Implementation: Memory-efficient implementation using FixedBitSet with native-speed processing
+   - Tools: WebGPU, TypeScript, Rust, WebAssembly, Docker, Cloud Run
+
+7. **News GRPC API**
+
+   - A gRPC API project for articles data management.
+   - Tools: gRPC, TypeScript, Protobuf
+
+## Archive
+
+1. **Generative AI Chat App** ([Tutorial](https://medium.com/google-cloud-indonesia/deployment-cepat-sebuah-genai-chat-app-dengan-vertexai-langchain-strimlit-11d9d32b89a0))
+
    - Tools: Python, Vertex AI, LangChain, Streamlit, Docker, Cloud Run
 
 ##
 
-&#169; Ken Tandrian 2024.
+Copyright &#169; 2024-2025 Ken Tandrian. All rights reserved.
