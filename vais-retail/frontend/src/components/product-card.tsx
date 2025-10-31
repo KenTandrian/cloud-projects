@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product?: IProduct | null }) {
           {product?.title ?? product?.id}
         </CardTitle>
         {logo && (
-          // eslint-disable-next-line @next/next/no-img-element
+          // biome-ignore lint/performance/noImgElement: src is dynamic
           <img
             src={logo}
             alt={`${product?.title} logo`}

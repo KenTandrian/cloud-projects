@@ -12,9 +12,9 @@ interface EventTrackerProps {
 }
 
 export function EventTracker(props: EventTrackerProps) {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run on mount
   useEffect(() => {
     trpc.trackEvent.mutate(props);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

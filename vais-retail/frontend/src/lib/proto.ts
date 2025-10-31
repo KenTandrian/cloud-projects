@@ -6,7 +6,7 @@ import type { google } from "@google-cloud/retail/build/protos/protos";
  * @param pv The raw Protobuf-JSON value.
  * @returns A clean JavaScript object, array, or primitive.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: value is dynamic
 export function protoJsonToJs(pv?: google.protobuf.IValue): any {
   if (!pv) {
     return null;
@@ -30,7 +30,7 @@ export function protoJsonToJs(pv?: google.protobuf.IValue): any {
   }
 
   if ("structValue" in pv) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: value is dynamic
     const newObj: { [key: string]: any } = {};
     for (const key in pv.structValue?.fields) {
       newObj[key] = protoJsonToJs(pv.structValue.fields[key]);

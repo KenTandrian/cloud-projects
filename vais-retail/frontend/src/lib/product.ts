@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// biome-ignore-all lint/suspicious/noExplicitAny: values are dynamic
 
 export interface Product {
   collectionMemberIds: string[];

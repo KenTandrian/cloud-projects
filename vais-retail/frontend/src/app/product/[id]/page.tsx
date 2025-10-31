@@ -43,14 +43,14 @@ export default async function ProductPage({
       }),
     ]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: JSON structure is dynamic
   const product: Product = protoJsonToJs(productResponse[0] as any);
 
   return (
     <main className="container mx-auto p-8">
       <div className="flex items-center space-x-4 mb-8">
         {product.images?.[0]?.uri && (
-          // eslint-disable-next-line @next/next/no-img-element
+          // biome-ignore lint/performance/noImgElement: src is dynamic
           <img
             src={product.images[0].uri}
             alt="logo"

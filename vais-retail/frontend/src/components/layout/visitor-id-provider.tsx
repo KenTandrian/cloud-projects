@@ -22,9 +22,9 @@ export const VisitorIdContext = createContext<VisitorIdContextType | null>(
 export function VisitorIdProvider({ children }: { children: React.ReactNode }) {
   const [visitorId, setVisitorId] = useVisitorId();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run on mount
   useEffect(() => {
     if (!visitorId) setVisitorId(VISITOR_PROFILES[0].id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
