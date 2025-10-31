@@ -1,6 +1,6 @@
 import { DollarSign } from "lucide-react";
 import Link from "next/link";
-import * as React from "react";
+import type * as React from "react";
 
 import { NavMain } from "@/components/layout/nav-main";
 import { NavUser } from "@/components/layout/nav-user";

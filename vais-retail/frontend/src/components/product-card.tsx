@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IProduct } from "@/lib/types";
+import type { IProduct } from "@/lib/types";
 
 export function ProductCard({ product }: { product?: IProduct | null }) {
   const logo = product?.images?.[0]?.uri;

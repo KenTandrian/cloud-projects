@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format ."
   },
   "dependencies": {
     "@bprogress/next": "3.2.12",
@@ -36,6 +38,7 @@
     "zod": "4.1.12"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.2",
     "@eslint/eslintrc": "3.3.1",
     "@tailwindcss/postcss": "4.1.14",
     "@types/node": "24.8.1",

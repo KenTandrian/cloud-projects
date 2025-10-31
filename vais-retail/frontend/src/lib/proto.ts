@@ -1,4 +1,4 @@
-import { google } from "@google-cloud/retail/build/protos/protos";
+import type { google } from "@google-cloud/retail/build/protos/protos";
 
 /**
  * Recursively converts a Protobuf Struct in its JSON representation

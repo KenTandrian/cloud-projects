@@ -1,5 +1,5 @@
 import { UserEventServiceClient } from "@google-cloud/retail";
-import { google } from "@google-cloud/retail/build/protos/protos";
+import type { google } from "@google-cloud/retail/build/protos/protos";
 
 import { assertEnv } from "@/lib/utils";
 

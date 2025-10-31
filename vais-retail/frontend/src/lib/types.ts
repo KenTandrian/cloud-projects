@@ -1,4 +1,4 @@
-import { google } from "@google-cloud/retail/build/protos/protos";
+import type { google } from "@google-cloud/retail/build/protos/protos";
 
 export type IPredictResponse = google.cloud.retail.v2beta.IPredictResponse;
 export type IProduct = google.cloud.retail.v2alpha.IProduct;

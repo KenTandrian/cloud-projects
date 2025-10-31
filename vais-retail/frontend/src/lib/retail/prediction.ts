@@ -1,7 +1,7 @@
 import { assertEnv } from "@/lib/utils";
 import type { EventType, ServingConfig } from "@/types/recommendation";
 import { PredictionServiceClient } from "@google-cloud/retail";
-import { google } from "@google-cloud/retail/build/protos/protos";
+import type { google } from "@google-cloud/retail/build/protos/protos";
 
 const predClient = new PredictionServiceClient();
 const projectId = assertEnv("GCLOUD_PROJECT");
