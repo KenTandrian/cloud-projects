@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Conway's Game of Life</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>
-      This page contains webassembly and javascript content, please enable
-      javascript in your browser.
-    </noscript>
-    <canvas id="game-of-life-canvas"></canvas>
-    <script src="./bootstrap.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Conway's Game of Life</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    This page contains webassembly and javascript content, please enable
+    javascript in your browser.
+  </noscript>
+  <h1>The Game of Life</h1>
+  <div style="margin-bottom: 10px; width: 500px;">
+    <input class="form-range" type="range" id="speed" min="0" max="60" value="30" step="10">
+  </div>
+  <canvas id="game-of-life-canvas"></canvas>
+  <div style="margin-top: 10px;">
+    <button class="btn btn-light" id="play-pause">⏯ Play/Pause</button>
+    <button class="btn btn-light" id="randomize">🎲 Randomize</button>
+    <button class="btn btn-light" id="clear">🗑 Clear</button>
+  </div>
+  <script src="./bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

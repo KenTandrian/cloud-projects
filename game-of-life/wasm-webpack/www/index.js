@@ -1,4 +1,4 @@
-import { Universe, Cell } from "wasm-game-of-life/game_of_life_wasm";
+import { Universe } from "wasm-game-of-life/game_of_life_wasm";
 import { memory } from "wasm-game-of-life/game_of_life_wasm_bg.wasm";
 
 const CELL_SIZE = 8; // px
@@ -19,13 +19,91 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 
 const ctx = canvas.getContext("2d");
 
-const renderLoop = () => {
-  universe.tick();
+let animationId = null;
+let fps = 10;
+let lastFrameTime = 0;
+let interval = 1000 / fps;
+
+const renderLoop = (timestamp) => {
+  animationId = requestAnimationFrame(renderLoop);
+
+  // Calculate time elapsed since last frame
+  const delta = timestamp - lastFrameTime;
+
+  // If enough time has passed, draw the next frame
+  if (delta > interval) {
+    // Adjust lastFrameTime to account for the drift
+    lastFrameTime = timestamp - (delta % interval);
+
+    universe.tick();
+    drawGrid();
+    drawCells();
+  }
+};
+
+const speedInput = document.getElementById("speed");
+speedInput.addEventListener("input", (event) => {
+  fps = event.target.value;
+  interval = 1000 / fps;
+});
+
+const isPaused = () => {
+  return animationId === null;
+};
+
+const playPauseButton = document.getElementById("play-pause");
+
+const play = () => {
+  playPauseButton.textContent = "⏸ Pause";
+  lastFrameTime = performance.now(); // Reset time to avoid jump
+  renderLoop(performance.now());
+};
+
+const pause = () => {
+  playPauseButton.textContent = "▶ Play";
+  cancelAnimationFrame(animationId);
+  animationId = null;
+};
+
+playPauseButton.addEventListener("click", (event) => {
+  if (isPaused()) {
+    play();
+  } else {
+    pause();
+  }
+});
+
+const randomizeButton = document.getElementById("randomize");
+randomizeButton.addEventListener("click", (event) => {
+  universe.randomize();
+  drawGrid();
+  drawCells();
+});
+
+const clearButton = document.getElementById("clear");
+clearButton.addEventListener("click", (event) => {
+  universe.clear();
+  drawGrid();
+  drawCells();
+});
+
+canvas.addEventListener("click", (event) => {
+  const boundingRect = canvas.getBoundingClientRect();
+
+  const scaleX = canvas.width / boundingRect.width;
+  const scaleY = canvas.height / boundingRect.height;
+
+  const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+  const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+  const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+  const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+
+  universe.toggle_cell(row, col);
 
   drawGrid();
   drawCells();
-  requestAnimationFrame(renderLoop);
-};
+});
 
 const drawGrid = () => {
   ctx.beginPath();
@@ -82,4 +160,4 @@ const drawCells = () => {
 
 drawGrid();
 drawCells();
-requestAnimationFrame(renderLoop);
+play();

@@ -112,6 +112,22 @@ impl Universe {
     pub fn cells(&self) -> *const usize {
         self.cells.as_slice().as_ptr()
     }
+
+    pub fn toggle_cell(&mut self, row: u32, col: u32) {
+        let idx = self.get_index(row, col);
+        self.cells.toggle(idx);
+    }
+
+    pub fn randomize(&mut self) {
+        let size = (self.width * self.height) as usize;
+        for i in 0..size {
+            self.cells.set(i, js_sys::Math::random() < 0.5);
+        }
+    }
+
+    pub fn clear(&mut self) {
+        self.cells.clear();
+    }
 }
 
 use std::fmt;
