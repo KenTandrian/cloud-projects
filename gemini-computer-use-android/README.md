@@ -81,9 +81,25 @@ Start the Docker container (Android 11 Emulator).
 ```
 *Wait 2-3 minutes for the device to fully boot.*
 
-### 4. Install Target App (e.g., Tiket.com)
-Upload the APK to your VM, then run:
+### 4. Obtaining & Installing the APK
+Since the VM has no GUI, you must download the app on your laptop and upload it.
 
+**A. Download the APK**
+The emulator runs on **x86_64** architecture. Standard mobile APKs (ARM64) might crash or run slowly.
+1.  Go to [APKMirror](https://www.apkmirror.com/) or [APKPure](https://apkpure.com/).
+2.  Search for **"Tiket.com"**.
+3.  **Crucial:** Download the version labeled **"Universal"** or **"x86_64"**.
+    *   *Note:* `.apk` files are preferred. If you download an `.xapk` or `.apks` bundle, the script supports them, but they are larger.
+
+**B. Upload to VM**
+Run this command on your **Local Laptop**:
+```bash
+# Replace username and IP with your GCP details
+gcloud compute scp /path/to/downloaded/tiket.apk YOUR_USERNAME@android-gemini-agent:~/
+```
+
+**C. Install on Android**
+Back in your **VM Terminal**:
 ```bash
 ./scripts/install_app.sh tiket.apk
 ```
