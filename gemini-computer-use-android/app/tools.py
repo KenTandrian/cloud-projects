@@ -20,11 +20,9 @@ def open_app(app_name: str, intent: Optional[str] = None) -> Dict[str, Any]:
     app_name = app_name.lower()
     pkg = app_name
     
-    if "tiket" in app_name: pkg = config.PKG_TIKET
-    elif "tiket.com" in app_name: pkg = config.PKG_TIKET
-    elif "chrome" in app_name: pkg = config.PKG_CHROME
-    elif "settings" in app_name: pkg = config.PKG_SETTINGS
-    
+    if app_name in config.APP_LIST: pkg = config.APP_LIST[app_name]
+    else: pkg = app_name
+
     adb.execute_cmd(f"monkey -p {pkg} -c android.intent.category.LAUNCHER 1")
     time.sleep(3)
     return {"status": "requested_open", "app_name": app_name, "intent": intent}
@@ -41,11 +39,9 @@ def close_app(app_name: str) -> Dict[str, Any]:
     app_name = app_name.lower()
     pkg = app_name
 
-    if "tiket" in app_name: pkg = config.PKG_TIKET
-    elif "tiket.com" in app_name: pkg = config.PKG_TIKET
-    elif "chrome" in app_name: pkg = config.PKG_CHROME
-    elif "settings" in app_name: pkg = config.PKG_SETTINGS
-    
+    if app_name in config.APP_LIST: pkg = config.APP_LIST[app_name]
+    else: pkg = app_name
+
     print(f"   (Force stopping {pkg})")
     adb.execute_cmd(f"am force-stop {pkg}")
     return {"status": "requested_close", "app_name": app_name}

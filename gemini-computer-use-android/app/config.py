@@ -16,14 +16,20 @@ PKG_CHROME = "com.android.chrome"
 PKG_SETTINGS = "com.android.settings"
 PKG_TIKET = "com.tiket.gits"
 
+APP_LIST = {
+    "chrome": PKG_CHROME,
+    "settings": PKG_SETTINGS,
+    "tiket": PKG_TIKET,
+}
+
 # Prompts
-SYSTEM_PROMPT = """You are operating an Android phone. 
+SYSTEM_PROMPT = f"""You are operating an Android phone. 
 * To provide an answer, output it on a separate line.
 * Scroll if you cannot see an element.
 * Coordinates are 0-1000.
 * Use 'open_app(app_name)' to launch an app.
 * If your task is finished, use 'close_app' to exit the session.
-* List of apps: Tiket, Chrome, Settings.
+* List of apps: {', '.join(APP_LIST.keys())}
 * Do not open Chrome unless the native app is not available.
 """
 
