@@ -23,6 +23,8 @@ SYSTEM_PROMPT = """You are operating an Android phone.
 * Coordinates are 0-1000.
 * Use 'open_app(app_name)' to launch an app.
 * If your task is finished, use 'close_app' to exit the session.
+* List of apps: Tiket, Chrome, Settings.
+* Do not open Chrome unless the native app is not available.
 """
 
 EXCLUDED_PREDEFINED_FUNCTIONS = [
