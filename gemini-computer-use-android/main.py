@@ -1,4 +1,5 @@
 import sys
+import time
 
 from google import genai
 from google.genai import types
@@ -32,11 +33,15 @@ def run_agent(task):
         for turn in range(MAX_TURNS):
             print(f"\n----- TURN {turn+1} -----")
 
+            print("🤖 Gemini is thinking…")
+            start_time = time.time()
             resp = client.models.generate_content(
                 model=config.MODEL_ID,
                 contents=contents,
                 config=generation_config,
             )
+            end_time = time.time()
+            print(f"🤖 Gemini thought for {end_time - start_time:.2f}s.")
             cand = resp.candidates[0]
             contents.append(cand.content)
 
@@ -63,8 +68,6 @@ def run_agent(task):
             print("\n⏹ Reached step limit. Stopping.")
     except Exception as e:
         print(f"❌ Critical Error: {e}")
-    finally:
-        print("--- SESSION ENDED ---")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
