@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IProduct } from "@/lib/types";
+import { replaceLogoUrl } from "@/lib/utils";
 
 export function ProductCard({ product }: { product?: IProduct | null }) {
-  const logo = product?.images?.[0]?.uri;
+  const logo = replaceLogoUrl(product?.images?.[0]?.uri);
 
   return (
     <Card className="justify-between">

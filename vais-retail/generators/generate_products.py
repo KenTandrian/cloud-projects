@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 def get_logo_url(website_url: str) -> str | None:
     """
-    Constructs a Clearbit logo URL from a company website and verifies it exists.
+    Constructs a Logo.dev URL from a company website and verifies it exists.
     """
     if not website_url:
         return None
@@ -22,7 +22,7 @@ def get_logo_url(website_url: str) -> str | None:
         if not domain:
             return None
             
-        logo_url = f"https://logo.clearbit.com/{domain}"
+        logo_url = f"https://img.logo.dev/{domain}"
         
         # Check if the logo actually exists to avoid broken links
         response = requests.head(logo_url, timeout=5)
