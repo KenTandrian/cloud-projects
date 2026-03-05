@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "esbuild": "0.25.11",
-    "rollup": "4.52.5",
+    "rollup": "4.59.0",
     "typescript": "5.9.3",
     "vite": "7.1.11"
   },
