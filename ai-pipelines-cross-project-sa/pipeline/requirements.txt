@@ -1,2 +1,2 @@
-google-cloud-aiplatform==1.110.0
+google-cloud-aiplatform==1.133.0
 kfp==2.14.2
