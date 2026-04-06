@@ -114,3 +114,45 @@ Once both pods are restarted and the `STRICT` policy is applied:
 2. Traffic between your app and Redis is automatically routed via the Envoy proxies.
 3. The connection is fully secured with mTLS.
 4. Any external or unencrypted attempt to access your Redis pod directly will be instantly blocked by the sidecar proxy!
+
+## 🔄 Day 2 Operations: Upgrades & Maintenance
+
+Because we provisioned Cloud Service Mesh using `MANAGEMENT_AUTOMATIC`, Google fully manages the lifecycle of both the Control Plane ("The Brain") and the Data Plane ("The Muscle").
+
+### 1. Control Plane Upgrades
+
+The Control Plane runs on Google's managed infrastructure outside of your cluster.
+
+- **How it upgrades:** Google silently updates the control plane in the background based on your GKE Release Channel (Rapid, Regular, Stable).
+- **Impact:** **Zero downtime.** Your application pods do not restart, and your Envoy proxies will continue routing traffic seamlessly during the backend upgrade.
+
+### 2. Data Plane Upgrades
+
+To apply security patches and version updates to the Envoy proxies running inside your pods, the pods _must_ be restarted.
+
+- **How it upgrades:** Shortly after a Control Plane upgrade, Google's automated controller will initiate a graceful, rolling restart of your deployments to inject the latest Envoy proxy image.
+- **Impact:** Pods will be terminated and recreated.
+
+### ⚠️ Production Safeguards for Data Plane Upgrades
+
+Because Google will automatically restart your pods to upgrade the sidecars, you **must** ensure your deployments are highly available to prevent downtime during these background upgrades.
+
+1. **Replicas:** Ensure critical deployments have `replicas: 2` (or higher).
+2. **PodDisruptionBudgets (PDB):** You must define PDBs for your applications so Google's upgrade controller knows not to take down all instances of an application at the same time.
+
+Example PDB:
+
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: app-pdb
+  namespace: my-namespace
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: your-app-label
+```
+
+_Note: If you are running `replicas: 1` (e.g., a single-node Redis database), be aware that automatic proxy upgrades will cause a few seconds of connection drops when Google restarts the pod. You can control when these restarts happen by configuring **GKE Maintenance Windows**._
