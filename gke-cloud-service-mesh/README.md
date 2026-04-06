@@ -156,3 +156,32 @@ spec:
 ```
 
 _Note: If you are running `replicas: 1` (e.g., a single-node Redis database), be aware that automatic proxy upgrades will cause a few seconds of connection drops when Google restarts the pod. You can control when these restarts happen by configuring **GKE Maintenance Windows**._
+
+## 📊 Day 3 Operations: Observability & Best Practices
+
+### 1. View the Topology Graph
+
+Cloud Service Mesh automatically generates visual architecture diagrams and tracks latency/error rates based on the traffic flowing through the Envoy sidecars.
+
+- Navigate to the **Service Mesh** page (https://console.cloud.google.com/kubernetes/services).
+- View live traffic flows, error rates, and dependencies between our microservices.
+
+### 2. Resource Costs on Autopilot
+
+GKE Autopilot bills based on pod resource requests. Because the Mesh injects a second container (Envoy) into every pod, expect a marginal increase in CPU/Memory usage per pod. Google manages the default sizing for these sidecars to ensure optimal performance.
+
+### 3. Ingress (North-South Traffic)
+
+The Envoy sidecars manage _internal_ (East-West) traffic. To securely expose applications to the public internet, do not use standard Kubernetes Ingress. Instead, route external traffic through an **Istio Ingress Gateway** or use the **Kubernetes Gateway API** so traffic enters the mesh securely and is immediately upgraded to mTLS.
+
+### 4. Zero-Trust Access Control
+
+While `PeerAuthentication` enforces encryption (mTLS), it does not restrict access. To restrict which microservices can talk to each other, apply Istio `AuthorizationPolicies`.
+
+_Example: Restrict Redis access to only your app:_
+
+```bash
+kubectl apply -f k8s/restrict-redis-access.yaml
+```
+
+_(Note: Ensure your app deployment is running under a dedicated Kubernetes ServiceAccount for this to work)._
