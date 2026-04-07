@@ -1,0 +1,16 @@
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: my-app-hc
+  namespace: my-app
+spec:
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        requestPath: /api/v1/health # The exact path of your app's health endpoint
+        port: 3333 # The exact port your app listens on internally
+  targetRef:
+    group: ""
+    kind: Service
+    name: my-app-service

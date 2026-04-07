@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: external-gateway
+  namespace: edge-routing
+  annotations:
+    # Attaches the Google-Managed Wildcard Certificate Map we just created!
+    networking.gke.io/certmap: my-wildcard-map
+spec:
+  gatewayClassName: gke-l7-global-external-managed
+  listeners:
+    # 1. Listen on HTTP (for redirects)
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+    # 2. Listen on HTTPS
+    - name: https
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
