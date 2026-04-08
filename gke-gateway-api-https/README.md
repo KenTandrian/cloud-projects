@@ -8,6 +8,72 @@ By using the native GKE Gateway instead of standard Ingress, we achieve:
 2. **Global Edge Infrastructure:** Traffic routes through Google's Global External Application Load Balancer (Envoy-based) with Cloud Armor DDoS protection.
 3. **Decoupled Routing:** Platform admins manage the Gateway; Developers manage their own `HTTPRoute` files.
 
+```mermaid
+flowchart TD
+    %% Styling Definitions
+    classDef dns fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000;
+    classDef cert fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000;
+    classDef k8s fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#000;
+    classDef app fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000;
+
+    %% TOP LEFT
+    subgraph DNS ["🌐 DNS Server"]
+        direction TB
+        CNAME["CNAME Record<br/>(_acme-challenge)"]:::dns
+        AREC["A-Record<br/>(my-app.yourdomain.com)"]:::dns
+    end
+
+    %% TOP RIGHT
+    subgraph CERT_MGR ["🛡️ GCP Certificate Manager"]
+        direction TB
+        AUTH["DNS Authorization"]:::cert
+        CERT["Wildcard Certificate<br/>(*.yourdomain.com)"]:::cert
+        MAP["Certificate Map"]:::cert
+        
+        AUTH -->|Validates| CERT
+        CERT -->|Added to| MAP
+    end
+
+    %% BOTTOM LEFT
+    subgraph EDGE["🚦 K8s Namespace: edge-routing"]
+        direction TB
+        GW["Gateway CRD<br/>(gke-l7-global-external-managed)"]:::k8s
+        GXLB{{"Google Cloud L7<br/>Load Balancer"}}:::cert
+        GW -.- GXLB
+    end
+
+    %% BOTTOM RIGHT
+    subgraph APP_NS ["📦 K8s Namespace: my-app"]
+        direction TB
+        HR["HTTPRoute<br/>(Host: my-app.yourdomain.com)"]:::k8s
+        HCP["HealthCheckPolicy<br/>(Path: /api/v1/health)"]:::k8s
+        SVC["Service<br/>(my-app-svc)"]:::k8s
+        POD["My App Pod<br/>+ Envoy Sidecar"]:::app
+        
+        HR -->|backendRefs| SVC
+        HCP -.->|targetRef| SVC
+        SVC -->|Routes to| POD
+    end
+
+    %% CROSS-BOUNDARY RELATIONSHIPS
+    
+    %% 1. DNS to Cert Validation
+    CNAME -.->|Proves Domain Ownership| AUTH
+    
+    %% 2. Cert to Gateway Binding
+    MAP ===|networking.gke.io/certmap| GW
+    
+    %% 3. DNS to Load Balancer
+    AREC ===|1. HTTPS User Traffic| GXLB
+    
+    %% 4. Gateway to Route Binding
+    GW ===|2. parentRefs| HR
+    
+    %% 5. GXLB directly to Pods (Health & Traffic)
+    GXLB -.->|3. Plain HTTP Health Check| HCP
+    GXLB ===|"4. App Traffic (PERMISSIVE mTLS)"| POD
+```
+
 > **⚠️ Cloud Service Mesh Note:** Because the Google Cloud Load Balancer initiates traffic from outside the cluster, it does not possess an Istio mTLS certificate. To use this native architecture with Cloud Service Mesh, your application namespaces **must** be left in `PERMISSIVE` mTLS mode so the load balancer's traffic and health checks are not rejected by the Envoy sidecars.
 
 ## Step 1: Create the Wildcard Certificate (Google Cloud CLI)
