@@ -16,8 +16,8 @@ Crop image focusing on certain objects using Gemini.
 npm run deploy
 ```
 
-The demo is deployed to Google Cloud Run [here](https://ai-image-cropper-lzfrzbfxoq-et.a.run.app).
+The demo is deployed to Google Cloud Run [here](https://ai-image-cropper-vegyaokhwa-as.a.run.app).
 
 ##
 
-2024 &copy; Ken Tandrian. All rights reserved.
+2024-2026 &copy; Ken Tandrian. All rights reserved.

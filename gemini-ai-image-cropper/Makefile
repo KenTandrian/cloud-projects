@@ -1,7 +1,7 @@
 include .env
 
 deploy:
-	gcloud run deploy ai-image-cropper --source=. --project=${PROJECT_ID} --region=asia-southeast2 --allow-unauthenticated
+	gcloud run deploy ai-image-cropper --source=. --project=${PROJECT_ID} --region=asia-southeast1 --allow-unauthenticated
 
 setup:
 	python3 -m venv .venv
