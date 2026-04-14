@@ -16,7 +16,7 @@ from vertexai.preview.generative_models import HarmBlockThreshold, HarmCategory
 
 PROJECT_ID = config("PROJECT_ID", default="your-project-id")
 LOCATION = config("LOCATION", default="asia-southeast1")
-MODEL = config("MODEL", default="gemini-1.5-pro-002")
+MODEL = config("MODEL", default="gemini-2.5-flash")
 
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 model = GenerativeModel(
