@@ -1,0 +1,4 @@
+functions-framework==3.10.1
+google-cloud-bigquery==3.41.0
+pytz==2026.2
+requests==2.33.1
