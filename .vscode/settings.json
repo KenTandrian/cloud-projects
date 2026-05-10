@@ -4,8 +4,6 @@
   },
   "editor.formatOnSave": true,
   "[python]": {
-    "editor.defaultFormatter": "ms-python.autopep8"
-  },
-  "python.formatting.provider": "none",
-  "rust-analyzer.linkedProjects": ["game-of-life/with-wasm/Cargo.toml"]
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  }
 }
