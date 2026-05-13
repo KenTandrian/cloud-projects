@@ -22,13 +22,13 @@ resource "google_storage_bucket_object" "function_zip" {
 }
 
 resource "google_cloudfunctions2_function" "billing_bot" {
-  name        = "telegram-billing-bot"
+  name        = "gcp-billing-bot"
   location    = var.region
-  description = "Sends daily GCP billing to Telegram"
+  description = "Sends daily Google Cloud billing to a messenger"
 
   build_config {
     runtime     = "python314"
-    entry_point = "send_telegram_billing"
+    entry_point = "run"
     source {
       storage_source {
         bucket = google_storage_bucket.code_bucket.name
