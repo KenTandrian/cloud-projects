@@ -1,10 +1,10 @@
 variable "project_id" {
-  description = "The GCP Project ID"
+  description = "The Google Cloud Project ID"
   type        = string
 }
 
 variable "region" {
-  description = "The GCP region to deploy resources in"
+  description = "The Google Cloud region to deploy resources in"
   type        = string
   default     = "asia-southeast1"
 }
