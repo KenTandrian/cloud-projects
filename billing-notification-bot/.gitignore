@@ -1,0 +1,10 @@
+# Terraform files
+*.tfvars
+*.tfvars.json
+*.tfstate
+*.tfstate.*
+.terraform
+.terraform.lock.hcl
+
+# Functions
+function.zip
