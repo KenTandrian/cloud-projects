@@ -44,10 +44,11 @@ resource "google_cloudfunctions2_function" "billing_bot" {
     service_account_email = google_service_account.function_sa.email
 
     environment_variables = {
-      ENABLE_TELEGRAM    = "true"
+      BQ_TABLE_NAME      = var.bq_table_name
+      BREAKDOWN_LIMIT    = tostring(var.breakdown_limit)
+      ENABLE_TELEGRAM    = var.enable_telegram
       TELEGRAM_BOT_TOKEN = var.telegram_bot_token
       TELEGRAM_CHAT_ID   = var.telegram_chat_id
-      BQ_TABLE_NAME      = var.bq_table_name
     }
   }
 

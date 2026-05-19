@@ -11,6 +11,8 @@ def send_telegram(data: BillingData) -> None:
     if not bot_token or not chat_id:
         raise ValueError("Telegram credentials missing")
 
+    limit = int(os.environ.get("BREAKDOWN_LIMIT", 5))
+
     # Format the message
     message = f"☁️ *GCP Billing Update ({data.display_month})*\n\n"
     message += f"💰 *Total Spend:* ${data.grand_total:.2f}\n"
@@ -18,11 +20,11 @@ def send_telegram(data: BillingData) -> None:
 
     if data.services:
         message += "📊 *Breakdown by Service:*\n"
-        for item in data.services[:5]:
+        for item in data.services[:limit]:
             message += f"🔹 {item.name}: ${item.cost:.2f}\n"
 
-        if len(data.services) > 5:
-            other_cost = sum(item.cost for item in data.services[5:])
+        if len(data.services) > limit:
+            other_cost = sum(item.cost for item in data.services[limit:])
             if other_cost > 0.00:
                 message += f"🔹 _Other Services_: ${other_cost:.2f}\n"
 
