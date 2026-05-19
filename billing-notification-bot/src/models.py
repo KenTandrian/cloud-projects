@@ -14,3 +14,4 @@ class BillingData:
     freshness: str
     grand_total: float
     services: List[ServiceCost]
+    tax_and_adjustments: float

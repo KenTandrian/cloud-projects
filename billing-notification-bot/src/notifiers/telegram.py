@@ -12,7 +12,7 @@ def send_telegram(data: BillingData) -> None:
         raise ValueError("Telegram credentials missing")
 
     # Format the message
-    message = f"☁️ *GCP Billing Update ({data.display_month})*\n"
+    message = f"☁️ *GCP Billing Update ({data.display_month})*\n\n"
     message += f"💰 *Total Spend:* ${data.grand_total:.2f}\n"
     message += f"🕒 *Data fresh as of:* _{data.freshness}_\n\n"
 
@@ -25,6 +25,9 @@ def send_telegram(data: BillingData) -> None:
             other_cost = sum(item.cost for item in data.services[5:])
             if other_cost > 0.00:
                 message += f"🔹 _Other Services_: ${other_cost:.2f}\n"
+
+        if data.tax_and_adjustments != 0.0:
+            message += f"🔹 _Taxes & Adjustments_: ${data.tax_and_adjustments:.2f}\n"
     else:
         message += "No charges reported yet! 🎉"
 
