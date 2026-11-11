@@ -2,7 +2,7 @@ data "archive_file" "function_zip" {
   type        = "zip"
   source_dir  = "${path.module}/src"
   output_path = "${path.module}/function.zip"
-  excludes    = [".env"]
+  excludes    = [".env", ".venv", "__pycache__"]
 }
 
 data "google_project" "project" {
