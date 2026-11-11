@@ -1,0 +1,28 @@
+{
+  "gateway": {
+    "enabled": true,
+    "url": "<GATEWAY_URL>",
+    "apiKey": "<LITELLM_MASTER_KEY>",
+    "wireProtocol": "openai"
+  },
+  "models": {
+    "defaultModelId": "oss-coder-gpu",
+    "list": [
+      {
+        "modelId": "oss-coder-gpu",
+        "displayName": "Qwen3 14B (self-hosted)",
+        "maxTokens": 32768,
+        "maxOutputTokens": 8192,
+        "supportsThinking": false,
+        "supportsImages": false,
+        "supportsVideo": false,
+        "supportsPdf": false
+      }
+    ],
+    "tiers": {
+      "flashLite": ["oss-coder-gpu"],
+      "flash": ["oss-coder-gpu"],
+      "pro": ["oss-coder-gpu"]
+    }
+  }
+}

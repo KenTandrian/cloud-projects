@@ -25,6 +25,11 @@ A collection of demo projects showcasing various Google Cloud Platform services 
 - Infrastructure for custom domain setup with Gemini Enterprise
 - Tools: Cloud Load Balancing, Terraform
 
+#### [Antigravity Self-Hosted Model on Cloud Run GPU](./antigravity-self-hosted-model/)
+
+- Self-hosted model on vLLM (NVIDIA L4) behind a LiteLLM gateway, used as an OpenAI-compatible model backend for Antigravity
+- Tools: Cloud Run (GPU), Artifact Registry, Secret Manager, Cloud Build, Terraform
+
 ### Infrastructure & Networking
 
 #### [Google Cloud Daily Billing Bot](./google-cloud-daily-billing-bot/)

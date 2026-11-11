@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars (gitignored) and fill in.
+# Pin exact image tags (no `latest` / `main-stable`). LiteLLM must be >= 1.83.7.
+project_id  = "<YOUR_PROJECT_ID>"
+region      = "asia-southeast1"
+vllm_tag    = "<VLLM_TAG>"
+litellm_tag = "<LITELLM_TAG>"

@@ -1,0 +1,14 @@
+# Rendered by Terraform (iac/secrets.tf) and stored in Secret Manager. Don't use as-is.
+model_list:
+  - model_name: oss-coder-gpu
+    litellm_params:
+      model: openai/${model_id} # filled in by Terraform from var.model_id
+      api_base: os.environ/VLLM_API_BASE # e.g. https://vllm-coder-backend-xxxx.a.run.app/v1
+      api_key: os.environ/VLLM_API_KEY
+      timeout: 1200 # covers a vLLM cold start (6-10 min) plus generation
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+litellm_settings:
+  drop_params: true

@@ -1,0 +1,25 @@
+# Terraform state holds the generated API keys in plain text. Never commit it.
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+crash.*.log
+
+# Project-specific values (project ID, tags). Commit only the *.example files.
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Filled-in Antigravity config contains the gateway URL and key.
+antigravity/admin_settings.json
+antigravity/settings.json
+
+# Local env files used for smoke tests (URLs / keys)
+.env
+*.env

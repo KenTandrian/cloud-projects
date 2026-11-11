@@ -1,0 +1,30 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["pull", "docker.io/vllm/vllm-openai:${_VLLM_TAG}"]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "tag",
+        "docker.io/vllm/vllm-openai:${_VLLM_TAG}",
+        "${_REPO}/vllm-openai:${_VLLM_TAG}",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "${_REPO}/vllm-openai:${_VLLM_TAG}"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["pull", "ghcr.io/berriai/litellm:${_LITELLM_TAG}"]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "tag",
+        "ghcr.io/berriai/litellm:${_LITELLM_TAG}",
+        "${_REPO}/litellm:${_LITELLM_TAG}",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "${_REPO}/litellm:${_LITELLM_TAG}"]
+
+options:
+  machineType: "E2_HIGHCPU_8"
+  diskSizeGb: 100
+  logging: CLOUD_LOGGING_ONLY # required when using a user-specified build service account
+timeout: "3600s"
