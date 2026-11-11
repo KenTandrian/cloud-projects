@@ -122,22 +122,24 @@ curl -s "$GATEWAY_URL/v1/chat/completions" -H "Authorization: Bearer $LITELLM_MA
 
 ## Known issues
 
-| Symptom                                         | Fix                                                                                                      |
-| :---------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
-| Apply fails on a Cloud Run service (org policy) | Org policy may block `invoker_iam_disabled`. The gateway needs it because Antigravity sends its own Bearer key, so request a policy exception for the project |
-| Mirror step fails right after the SA is created | IAM propagation delay; re-run `terraform apply`                                                          |
-| Gateway returns a 404 from vLLM right after apply | The internal ingress and VPC egress settings take a few minutes to take effect; retry after ~3 minutes |
-| First request takes minutes / client timeout    | Warm up with the gateway chat `curl` from the smoke tests, or temporarily set vLLM `min_instance_count = 1` (an always-on L4 is billed) |
-| vLLM startup probe fails                        | Hugging Face rate limits; add an `HF_TOKEN` secret env var                                               |
+| Symptom                                           | Fix                                                                                                                                                           |
+| :------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Apply fails on a Cloud Run service (org policy)   | Org policy may block `invoker_iam_disabled`. The gateway needs it because Antigravity sends its own Bearer key, so request a policy exception for the project |
+| Mirror step fails right after the SA is created   | IAM propagation delay; re-run `terraform apply`                                                                                                               |
+| Gateway returns a 404 from vLLM right after apply | The internal ingress and VPC egress settings take a few minutes to take effect; retry after ~3 minutes                                                        |
+| First request takes minutes / client timeout      | Warm up with the gateway chat `curl` from the smoke tests, or temporarily set vLLM `min_instance_count = 1` (an always-on L4 is billed)                       |
+| vLLM startup probe fails                          | Hugging Face rate limits; add an `HF_TOKEN` secret env var                                                                                                    |
 
 ## Hardening
 
-Already in place: vLLM accepts only internal traffic from LiteLLM over the VPC. Next steps for production:
+Already in place: vLLM accepts only internal traffic from LiteLLM over the VPC, plus its own API key.
 
-1. **Identity between LiteLLM and vLLM:** turn on Cloud Run IAM for vLLM and grant `roles/run.invoker` to the LiteLLM service account only. This replaces the static vLLM key with short-lived Google ID tokens, and needs a small LiteLLM hook to send them in `X-Serverless-Authorization`.
-2. **Gateway perimeter:** External ALB + Cloud Armor (IP allowlist, rate limits), or an Internal ALB over VPN.
-3. **Per-developer keys:** LiteLLM virtual keys with budgets (needs Postgres, e.g. Cloud SQL).
-4. **State and secrets:** a GCS backend with restricted access for Terraform state; rotate both keys.
+Next steps for production:
+
+1. **Gateway perimeter:** External ALB + Cloud Armor (IP allowlist, rate limits), or an Internal ALB over VPN.
+2. **Per-developer keys:** LiteLLM virtual keys with budgets (needs Postgres, e.g. Cloud SQL).
+3. **State and secrets:** a GCS backend with restricted access for Terraform state; rotate both keys.
+4. **Optional, for zero-trust or shared-VPC requirements:** Cloud Run IAM between LiteLLM and vLLM (`roles/run.invoker` for the LiteLLM service account only). LiteLLM doesn't attach Google identity by itself, so something has to add a fresh ID token to each request in `X-Serverless-Authorization`, such as a LiteLLM hook or an auth sidecar. A static `api_key` in the config isn't enough, because ID tokens expire after an hour.
 
 ## Teardown
 
