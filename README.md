@@ -56,11 +56,6 @@ A collection of demo projects showcasing various Google Cloud Platform services 
 - Rust/WebAssembly Implementation: Memory-efficient implementation using FixedBitSet with native-speed processing
 - Tools: WebGPU, TypeScript, Rust, WebAssembly, Docker, Cloud Run
 
-#### [News GRPC API](./news-grpc/)
-
-- A gRPC API project for articles data management.
-- Tools: gRPC, TypeScript, Protobuf
-
 ##
 
 Copyright &#169; 2024-2025 Ken Tandrian. All rights reserved.
