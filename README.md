@@ -47,15 +47,6 @@ A collection of demo projects showcasing various Google Cloud Platform services 
 - Connecting on-premise infrastructure to Google Cloud with hub-and-spoke topology implementation.
 - Tools: Cloud DNS, Cloud NAT, Cloud VPC, Terraform
 
-### Web Applications
-
-#### [Conway's Game of Life Series](./game-of-life/)
-
-- Vanilla JS Implementation with WebGPU ([Codelab](https://codelabs.developers.google.com/your-first-webgpu-app))
-- TypeScript/Vite Implementation: GPU-accelerated grid simulation using compute shaders and typed pipelines
-- Rust/WebAssembly Implementation: Memory-efficient implementation using FixedBitSet with native-speed processing
-- Tools: WebGPU, TypeScript, Rust, WebAssembly, Docker, Cloud Run
-
 ##
 
 Copyright &#169; 2024-2025 Ken Tandrian. All rights reserved.
