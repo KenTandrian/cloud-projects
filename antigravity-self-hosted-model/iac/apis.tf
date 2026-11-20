@@ -1,14 +1,20 @@
 locals {
-  apis = [
-    "artifactregistry.googleapis.com",
-    "cloudbuild.googleapis.com",
-    "compute.googleapis.com",
-    "iam.googleapis.com",
-    "logging.googleapis.com",
-    "run.googleapis.com",
-    "secretmanager.googleapis.com",
-    "serviceusage.googleapis.com",
-  ]
+  apis = concat(
+    [
+      "artifactregistry.googleapis.com",
+      "cloudbuild.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "logging.googleapis.com",
+      "run.googleapis.com",
+      "secretmanager.googleapis.com",
+      "serviceusage.googleapis.com",
+    ],
+    var.enable_gke ? [
+      "container.googleapis.com",
+      "networkservices.googleapis.com",
+    ] : [],
+  )
 }
 
 # Keep APIs enabled on destroy so other work in the project isn't broken.

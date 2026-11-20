@@ -4,3 +4,6 @@ project_id  = "<YOUR_PROJECT_ID>"
 region      = "asia-southeast1"
 vllm_tag    = "<VLLM_TAG>"
 litellm_tag = "<LITELLM_TAG>"
+
+# Optional: GKE cluster for the GKE Inference Gateway backend (see gke.tf).
+# enable_gke = false

@@ -23,6 +23,12 @@ variable "model_id" {
   default = "Qwen/Qwen3-14B-AWQ"
 }
 
+variable "enable_gke" {
+  type        = bool
+  default     = false
+  description = "Create the GKE Autopilot cluster and network for the GKE Inference Gateway backend. Apply k8s/ afterwards."
+}
+
 locals {
   repo          = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.images.repository_id}"
   vllm_image    = "${local.repo}/vllm-openai:${var.vllm_tag}"
