@@ -21,13 +21,11 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: Cloud Run (GPU), Artifact Registry, Secret Manager, Cloud Build, Terraform
 - Last updated: Nov 2026
 
-
 #### [Content-Aware Image Cropper](./gemini-ai-image-cropper/)
 
 - Web app that crops images around user-specified objects detected by Gemini
 - Tools: Gemini on Vertex AI, Flask, Cloud Run
 - Last updated: Apr 2026
-
 
 #### [Vertex AI Search for Commerce Demo](./vais-retail/)
 
@@ -35,13 +33,11 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: Python, Next.js, Vertex AI Search for Commerce, Cloud Run
 - Last updated: Jan 2026
 
-
 #### [Android Agent with Gemini Computer Use](./gemini-computer-use-android/)
 
 - AI agent that controls a virtual Android device through screenshots and ADB to complete tasks in mobile apps
 - Tools: Gemini API (Computer Use), Compute Engine, Docker, Python
 - Last updated: Dec 2025
-
 
 #### [ADK Streaming Banking Agent](./adk-streaming/)
 
@@ -49,13 +45,11 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: Agent Development Kit (ADK), Gemini Live API, FastAPI
 - Last updated: Oct 2025
 
-
 #### [Gemini Enterprise Custom Domain](./gemini-enterprise-custom-domain/)
 
 - Infrastructure for custom domain setup with Gemini Enterprise
 - Tools: Cloud Load Balancing, Terraform
 - Last updated: Oct 2025
-
 
 #### [Travel Agent with MCP Toolbox for Databases and ADK](./travel-agent-mcp-toolbox-adk/)
 
@@ -63,18 +57,16 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: Agent Development Kit (ADK), MCP Toolbox for Databases, Cloud SQL, Cloud Run, Terraform
 - Last updated: Sep 2025
 
-
 #### [Cross-Project Service Account for Vertex AI Pipelines](./ai-pipelines-cross-project-sa/)
 
 - Example of running Vertex AI Pipelines across projects
 - Tools: Terraform, Python, Vertex AI
 - Last updated: Aug 2025
 
-
 #### [Notebooks](./notebooks/)
 
-- Cloud Translation API with glossaries, and Veo 2 video generation
-- Tools: Cloud Translation API, Veo on Vertex AI, Jupyter
+- Cloud Translation API with glossaries, Veo 2 video generation, and Vertex AI Vector Search with Private Service Connect
+- Tools: Cloud Translation API, Veo on Vertex AI, Vector Search, Private Service Connect, Jupyter
 - Last updated: May 2025
 
 ### Infrastructure & Networking
@@ -85,13 +77,11 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: Google Cloud BigQuery, Cloud Functions (2nd gen), Cloud Scheduler, Terraform, Telegram Bot API
 - Last updated: Nov 2026
 
-
 #### [GKE Gateway API with HTTPS](./gke-gateway-api-https/)
 
 - Global external Gateway with Google-managed wildcard certificates and custom health checks
 - Tools: GKE Gateway API, Certificate Manager, Cloud Load Balancing
 - Last updated: Apr 2026
-
 
 #### [Managed Cloud Service Mesh on GKE Autopilot](./gke-cloud-service-mesh/)
 
@@ -99,18 +89,22 @@ A collection of demo projects showcasing Google Cloud services, including AI age
 - Tools: GKE Autopilot, Cloud Service Mesh, Fleet, Terraform
 - Last updated: Apr 2026
 
-
 #### [Kubernetes Service Account Authentication with Workload Identity](./gke-workload-identity/)
 
 - A project to demonstrate how to authenticate GKE workloads to IAM using Kubernetes service account.
 - Tools: Google Kubernetes Engine, Docker, Go
 - Last updated: Apr 2025
 
-
 #### [Hybrid Networking using Hub-and-spoke Topology](./hybrid-networking/)
 
 - Connecting on-premise infrastructure to Google Cloud with hub-and-spoke topology implementation.
 - Tools: Cloud DNS, Cloud NAT, Cloud VPC, Terraform
+- Last updated: Jun 2024
+
+#### [CIDR IP Ranges Extraction](./asset-inventory-get-all-ip-ranges/)
+
+- Extract all CIDR IP ranges for all networks in an organization using Google Cloud Asset Inventory
+- Tools: Cloud Asset Inventory, gcloud CLI, Terraform
 - Last updated: Jun 2024
 
 ##
